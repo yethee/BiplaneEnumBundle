@@ -9,6 +9,7 @@ This bundle provides a typed enumeration for your Symfony2 project.
 - Provides base implementation for flags enum type (treated as a bit field, that is a set of flags).
 - Uses enum types with Symfony2's Form Component.
 - Contains normalizer for Symfony2' Serializer Component.
+- Contains the custom handler for JMSSerializerBundle.
 
 Installation
 ------------
