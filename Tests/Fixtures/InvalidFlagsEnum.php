@@ -2,12 +2,12 @@
 
 namespace Biplane\EnumBundle\Tests\Fixtures;
 
-use Biplane\EnumBundle\Enumeration\FlagEnum as BaseFlagEnum;
+use Biplane\EnumBundle\Enumeration\FlaggedEnum as BaseFlagEnum;
 
 /**
  * @author Denis Vasilev <yethee@biplane.ru>
  */
-class InvalidFlagEnum extends BaseFlagEnum
+class InvalidFlagsEnum extends BaseFlagEnum
 {
     const FIRST   = 1;
     const SECOND  = 2;

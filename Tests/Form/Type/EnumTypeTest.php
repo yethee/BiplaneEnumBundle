@@ -7,7 +7,7 @@ use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\Extension\Core\CoreExtension;
 use Biplane\EnumBundle\Form\Type\EnumType;
 use Biplane\EnumBundle\Tests\Fixtures\SimpleEnum;
-use Biplane\EnumBundle\Tests\Fixtures\FlagEnum;
+use Biplane\EnumBundle\Tests\Fixtures\FlagsEnum;
 
 /**
  * @author Denis Vasilev <yethee@biplane.ru>
@@ -15,7 +15,7 @@ use Biplane\EnumBundle\Tests\Fixtures\FlagEnum;
 class EnumTypeTest extends \PHPUnit_Framework_TestCase
 {
     const SIMPLE_ENUM_CLASS = 'Biplane\\EnumBundle\\Tests\\Fixtures\\SimpleEnum';
-    const FLAG_ENUM_CLASS = 'Biplane\\EnumBundle\\Tests\\Fixtures\\FlagEnum';
+    const FLAGS_ENUM_CLASS = 'Biplane\\EnumBundle\\Tests\\Fixtures\\FlagsEnum';
 
     /**
      * @var \Symfony\Component\Form\FormFactory
@@ -144,7 +144,7 @@ class EnumTypeTest extends \PHPUnit_Framework_TestCase
     {
         $field = $this->factory->create('biplane_enum', null, array(
             'multiple' => true,
-            'enum_class' => self::FLAG_ENUM_CLASS
+            'enum_class' => self::FLAGS_ENUM_CLASS
         ));
 
         $field->bind(null);
@@ -176,13 +176,13 @@ class EnumTypeTest extends \PHPUnit_Framework_TestCase
         $field = $this->factory->create('biplane_enum', null, array(
             'multiple' => true,
             'expanded' => true,
-            'enum_class' => self::FLAG_ENUM_CLASS
+            'enum_class' => self::FLAGS_ENUM_CLASS
         ));
 
         $field->bind(array('1' => '1', '2' => '2'));
 
         $this->assertTrue($field->isSynchronized());
-        $this->assertEquals(FlagEnum::create(1 | 2), $field->getData());
+        $this->assertEquals(FlagsEnum::create(1 | 2), $field->getData());
         $this->assertSame(true, $field['1']->getData());
         $this->assertSame(true, $field['2']->getData());
         $this->assertSame(false, $field['4']->getData());
@@ -265,11 +265,11 @@ class EnumTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testSetDataMultipleExpanded_FlagEnum()
     {
-        $data = FlagEnum::create(1 | 4);
+        $data = FlagsEnum::create(1 | 4);
         $field = $this->factory->create('biplane_enum', null, array(
             'multiple' => true,
             'expanded' => true,
-            'enum_class' => self::FLAG_ENUM_CLASS
+            'enum_class' => self::FLAGS_ENUM_CLASS
         ));
 
         $field->setData($data);

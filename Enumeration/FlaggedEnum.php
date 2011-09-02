@@ -9,7 +9,7 @@ use Biplane\EnumBundle\Exception\InvalidEnumArgumentException;
  *
  * @author Denis Vasilev <yethee@biplane.ru>
  */
-abstract class FlagEnum extends Enum
+abstract class FlaggedEnum extends Enum
 {
     protected $flags;
 

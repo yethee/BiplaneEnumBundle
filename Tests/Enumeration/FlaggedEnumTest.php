@@ -2,19 +2,19 @@
 
 namespace Biplane\EnumBundle\Tests\Enumeration;
 
-use Biplane\EnumBundle\Tests\Fixtures\FlagEnum;
+use Biplane\EnumBundle\Tests\Fixtures\FlagsEnum;
 
 /**
  * @author Denis Vasilev <yethee@biplane.ru>
  */
-class FlagEnumTest extends \PHPUnit_Framework_TestCase
+class FlaggedEnumTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @expectedException \InvalidArgumentException
      */
     public function testExceptionIsRaisedWhenInvalidTypeOfAcceptableValue()
     {
-        FlagEnum::isAcceptableValue('1');
+        FlagsEnum::isAcceptableValue('1');
     }
 
     /**
@@ -22,7 +22,7 @@ class FlagEnumTest extends \PHPUnit_Framework_TestCase
      */
     public function testAcceptableValue($value, $result)
     {
-        $this->assertSame($result, FlagEnum::isAcceptableValue($value),
+        $this->assertSame($result, FlagsEnum::isAcceptableValue($value),
             sprintf('->isAcceptableValue() returns %s if the value %d.', $result ? 'true' : 'false', $value));
     }
 
@@ -32,7 +32,7 @@ class FlagEnumTest extends \PHPUnit_Framework_TestCase
     public function testExceptionIsRaisedWhenPossibleValueIsNotBitFlag()
     {
         $reflection = new \ReflectionMethod(
-            'Biplane\\EnumBundle\\Tests\\Fixtures\\InvalidFlagEnum',
+            'Biplane\\EnumBundle\\Tests\\Fixtures\\InvalidFlagsEnum',
             'getAllFlagsValue'
         );
         $reflection->setAccessible(true);
@@ -42,26 +42,26 @@ class FlagEnumTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFlagsOfValue()
     {
-        $value = FlagEnum::create(FlagEnum::FIRST | FlagEnum::THIRD);
+        $value = FlagsEnum::create(FlagsEnum::FIRST | FlagsEnum::THIRD);
 
-        $this->assertEquals(array(FlagEnum::FIRST, FlagEnum::THIRD), $value->getFlags());
+        $this->assertEquals(array(FlagsEnum::FIRST, FlagsEnum::THIRD), $value->getFlags());
     }
 
     public function testSingleFlagCanBeReadabled()
     {
-        $this->assertEquals('First', FlagEnum::getReadableFor(FlagEnum::FIRST));
+        $this->assertEquals('First', FlagsEnum::getReadableFor(FlagsEnum::FIRST));
     }
 
     public function testMultipleFlagsCanBeReadabled()
     {
-        $this->assertEquals('First; Second', FlagEnum::getReadableFor(FlagEnum::FIRST | FlagEnum::SECOND));
+        $this->assertEquals('First; Second', FlagsEnum::getReadableFor(FlagsEnum::FIRST | FlagsEnum::SECOND));
     }
 
     public function valuesProvider()
     {
         return array(
             array(0, false),
-            array(FlagEnum::FIRST, true),
+            array(FlagsEnum::FIRST, true),
             array(3, true),
             array(8, false),
             array(10, false),

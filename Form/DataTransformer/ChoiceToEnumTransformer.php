@@ -21,7 +21,7 @@ class ChoiceToEnumTransformer implements DataTransformerInterface
     /**
      * @var bool
      */
-    private $isFlagEnum;
+    private $flaggedEnum;
     /**
      * @var bool
      */
@@ -45,7 +45,7 @@ class ChoiceToEnumTransformer implements DataTransformerInterface
 
         $this->enumClass = $enumClass;
         $this->multiple = (bool)$multiple;
-        $this->isFlagEnum = $reflection->isSubclassOf('Biplane\EnumBundle\Enumeration\FlagEnum');
+        $this->flaggedEnum = $reflection->isSubclassOf('Biplane\EnumBundle\Enumeration\FlaggedEnum');
     }
 
     /**
@@ -75,7 +75,7 @@ class ChoiceToEnumTransformer implements DataTransformerInterface
         $enumValue = null;
 
         try {
-            if ($this->isFlagEnum) {
+            if ($this->flaggedEnum) {
                 if (count($value) === 0) {
                     return null;
                 }
@@ -121,7 +121,7 @@ class ChoiceToEnumTransformer implements DataTransformerInterface
             return $this->multiple ? array() : null;
         }
 
-        if ($this->isFlagEnum || !$this->multiple) {
+        if ($this->flaggedEnum || !$this->multiple) {
             if (!$value instanceof $this->enumClass) {
                 throw new UnexpectedTypeException($value, $this->enumClass);
             }
@@ -132,7 +132,7 @@ class ChoiceToEnumTransformer implements DataTransformerInterface
             }
         }
 
-        if ($this->isFlagEnum) {
+        if ($this->flaggedEnum) {
             return $value->getFlags();
         }
 
