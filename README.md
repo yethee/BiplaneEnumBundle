@@ -67,7 +67,7 @@ public function registerBundles()
 Usage
 -----
 
-In order to create a typed enumeration, enough extend a base class `Biplane\EnumBundle\Enumeration\EnumBundle`
+In order to create a typed enumeration, it's enough to extend the base class `Biplane\EnumBundle\Enumeration\Enum`
 - define constants and implement `getPossibleValues()` and `getReadables()` methods. The first method
 should return an array of possible values of your enumeration, the second method returns a hash list
 of possible values and their human representations.
