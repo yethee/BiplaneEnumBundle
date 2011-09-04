@@ -33,7 +33,7 @@ class FlaggedEnumTest extends \PHPUnit_Framework_TestCase
     {
         $reflection = new \ReflectionMethod(
             'Biplane\\EnumBundle\\Tests\\Fixtures\\InvalidFlagsEnum',
-            'getAllFlagsValue'
+            'getBitmask'
         );
         $reflection->setAccessible(true);
         
