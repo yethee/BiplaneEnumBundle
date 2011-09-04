@@ -33,7 +33,7 @@ abstract class FlaggedEnum extends Enum
             return parent::isAcceptableValue($value);
         }
         
-        return $value === ($value & static::getAllFlagsValue());
+        return $value === ($value & static::getBitmask());
     }
 
     /**
@@ -68,15 +68,17 @@ abstract class FlaggedEnum extends Enum
     }
 
     /**
+     * Gets an integer value of the possible flags for enumeration.
+     * 
      * @return int
      */
-    protected static function getAllFlagsValue()
+    protected static function getBitmask()
     {
         throw new \LogicException('This method must be overwritten.');
     }
 
     /**
-     * Helper method.
+     * Gets the bitmask of possible values.
      * 
      * @return int
      *
@@ -108,12 +110,23 @@ abstract class FlaggedEnum extends Enum
             $this->flags = array();
 
             foreach (static::getPossibleValues() as $flag) {
-                if ($flag === ($flag & $this->value)) {
+                if ($this->hasFlag($flag)) {
                     $this->flags[] = $flag;
                 }
             }
         }
 
         return $this->flags;
+    }
+
+    /**
+     * Determines whether the specified flag is set in a numeric value.
+     *
+     * @param int $bitFlag
+     * @return bool
+     */
+    public function hasFlag($bitFlag)
+    {
+        return $bitFlag === ($bitFlag & $this->value);
     }
 }

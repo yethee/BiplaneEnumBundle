@@ -30,7 +30,7 @@ class InvalidFlagsEnum extends BaseFlagEnum
     /**
      * @return int
      */
-    protected static function getAllFlagsValue()
+    protected static function getBitmask()
     {
         return self::getMaskOfPossibleValues();
     }
