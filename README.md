@@ -72,7 +72,7 @@ In order to create a typed enumeration, it's enough to extend the base class `Bi
 should return an array of possible values of your enumeration, the second method returns a hash list
 of possible values and their human representations.
 
-Below you can see simple implementation of enumeration for user roles:
+Below you can see a simple implementation of enumeration for user roles:
 
 ```php
 <?php
@@ -96,40 +96,40 @@ class UserRoles extends Enum
 }
 ```
 
-You can create a new instance of the enumeration via `create()` factory method,
+You can create a new instance of the enumeration via the `create()` factory method,
 which provides the base class:
 
     $role = UserRoles::create(UserRoles::ADMIN);
 
-If the argument contains an invalid value, when exception of
+If the argument contains an invalid value, an exception of
 `Biplane\EnumBundle\Exception\InvalidEnumArgumentException` type will be thrown.
 
 The following code example shows how to get the raw value or the human representation of
-enumeration value from the object:
+the enumeration value from the object:
 
     $role->getValue(); // returns string 'ROLE_ADMIN'
     $role->getReadable(); // returns string 'Admin'
 
-You can also convert the object to the string to obtain the human representation of enumeration value:
+You can also convert the object to a string to obtain the human representation of the enumeration value:
 
     (string)$role;
 
 ### Bit flags support
 
-You can extend of `Biplane\EnumBundle\Enumeration\FlaggedEnum` for an enumeration if a bitwise operation
+You can extend `Biplane\EnumBundle\Enumeration\FlaggedEnum` for an enumeration, if a bitwise operation
 is to be performed on a numeric value. In this case you should override three methods: `getPossibleValues()`,
-`getReadables()` and `getBitmask()`. The last method should be returns an integer value (bitmask)
+`getReadables()` and `getBitmask()`. The last method should return an integer value (bitmask)
 of the possible flags for an enumeration.
 
 In this case define enumeration constants in powers of two, that is, 1, 2, 4, 8, and so on.
-This means the individual flags in combined enumeration constants do not overlap. Also can be create
-an enumerated constant for commonly used flag combinations, but values of these constants **must not be**
+This means the individual flags in combined enumeration constants do not overlap. Also you can create
+an enumerated constant for commonly used flag combinations, but the values of these constants **must not be**
 returned by `getPossibleValues()` method.
 
-*Note:* to facilitate implementation `getBitmask()` can be use `getMaskOfPossibleValues()` helper method,
-the result of this method should be cached for better performance.
+*Note:* to facilitate the implementation of `getBitmask()` you can use the `getMaskOfPossibleValues()` helper
+method. The result of this method should be cached for better performance.
 
-Below you can see implementation of flags enumeration for permissions list:
+Below you can see the implementation of flags enumeration for permissions list:
 
 ```php
 <?php
