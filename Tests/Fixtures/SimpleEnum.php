@@ -6,12 +6,14 @@ use Biplane\EnumBundle\Enumeration\Enum;
 
 class SimpleEnum extends Enum
 {
+    const ZERO   = 0;
     const FIRST  = 1;
     const SECOND = 2;
 
     public static function getReadables()
     {
         return array(
+            self::ZERO => 'Zero',
             self::FIRST => 'First',
             self::SECOND => 'Second'
         );
@@ -19,6 +21,6 @@ class SimpleEnum extends Enum
 
     public static function getPossibleValues()
     {
-        return array(self::FIRST, self::SECOND);
+        return array(self::ZERO, self::FIRST, self::SECOND);
     }
 }
