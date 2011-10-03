@@ -41,7 +41,7 @@ class EnumTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionIsRaisedWhenValueIsNotAcceptableWithStrictCheck()
     {
-        SimpleEnum::create('string');
+        SimpleEnum::create('0');
     }
 
     public function testValueCanBeReadabled()
