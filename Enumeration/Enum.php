@@ -78,7 +78,7 @@ abstract class Enum implements EnumInterface
      */
     public static function isAcceptableValue($value)
     {
-        return in_array($value, static::getPossibleValues());
+        return in_array($value, static::getPossibleValues(), true);
     }
 
     /**

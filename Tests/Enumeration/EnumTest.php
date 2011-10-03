@@ -33,7 +33,15 @@ class EnumTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionIsRaisedWhenValueIsNotAcceptable()
     {
-        SimpleEnum::create(0);
+        SimpleEnum::create(3);
+    }
+
+    /**
+     * @expectedException \Biplane\EnumBundle\Exception\InvalidEnumArgumentException
+     */
+    public function testExceptionIsRaisedWhenValueIsNotAcceptableWithStrictCheck()
+    {
+        SimpleEnum::create('string');
     }
 
     public function testValueCanBeReadabled()
