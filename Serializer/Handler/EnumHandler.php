@@ -22,7 +22,7 @@ class EnumHandler implements SerializationHandlerInterface
      * @param bool $handled
      * @return mixed
      */
-    function serialize(VisitorInterface $visitor, $data, $type, &$handled)
+    public function serialize(VisitorInterface $visitor, $data, $type, &$handled)
     {
         if ($data instanceof EnumInterface) {
             $handled = true;

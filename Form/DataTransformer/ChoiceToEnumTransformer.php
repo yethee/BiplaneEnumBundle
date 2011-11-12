@@ -57,7 +57,7 @@ class ChoiceToEnumTransformer implements DataTransformerInterface
      * @throws UnexpectedTypeException  When argument is not valid type.
      * @throws DataTransformerException When cast to enum type is failed.
      */
-    function reverseTransform($value)
+    public function reverseTransform($value)
     {
         if ($value === null || $value === '') {
             return null;
@@ -115,7 +115,7 @@ class ChoiceToEnumTransformer implements DataTransformerInterface
      * @throws UnexpectedTypeException
      * @throws DataTransformerException
      */
-    function transform($value)
+    public function transform($value)
     {
         if ($value === null) {
             return $this->multiple ? array() : null;

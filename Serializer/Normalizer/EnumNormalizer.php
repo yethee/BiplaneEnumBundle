@@ -19,7 +19,7 @@ class EnumNormalizer extends SerializerAwareNormalizer
      * @param string $format format the normalization result will be encoded as
      * @return array|scalar
      */
-    function normalize($object, $format = null)
+    public function normalize($object, $format = null)
     {
         return $object->getValue();
     }
@@ -32,7 +32,7 @@ class EnumNormalizer extends SerializerAwareNormalizer
      * @param string $format format the given data was extracted from
      * @return object
      */
-    function denormalize($data, $class, $format = null)
+    public function denormalize($data, $class, $format = null)
     {
         $reflection = new \ReflectionClass($class);
         $method = $reflection->getMethod('create');
@@ -47,7 +47,7 @@ class EnumNormalizer extends SerializerAwareNormalizer
      * @param string  $format The format being (de-)serialized from or into.
      * @return Boolean
      */
-    function supportsNormalization($data, $format = null)
+    public function supportsNormalization($data, $format = null)
     {
         return $data instanceof EnumInterface;
     }
@@ -60,7 +60,7 @@ class EnumNormalizer extends SerializerAwareNormalizer
      * @param string  $format The format being deserialized from.
      * @return Boolean
      */
-    function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization($data, $type, $format = null)
     {
         $reflection = new \ReflectionClass($type);
 
