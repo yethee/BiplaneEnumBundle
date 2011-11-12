@@ -3,6 +3,8 @@
 namespace Biplane\EnumBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use JMS\SerializerBundle\DependencyInjection\JMSSerializerExtension;
+use Biplane\EnumBundle\DependencyInjection\Factory\EnumHandlerFactory;
 
 /**
  * Bundle provides support typed enumeration.
@@ -11,4 +13,8 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class BiplaneEnumBundle extends Bundle
 {
+    public function configureSerializerExtension(JMSSerializerExtension $extension)
+    {
+        $extension->addHandlerFactory(new EnumHandlerFactory());
+    }
 }

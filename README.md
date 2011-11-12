@@ -260,3 +260,16 @@ class User
     private $role;
 }
 ```
+
+JMSSerializerBundle support
+---------------------------
+
+By default, registers a custom handler for the enumeration when JMSSerializerBundle is enabled.
+You can disable this handler:
+
+```yaml
+# app/config/config.yml
+jms_serializer:
+    handlers:
+        biplane_enum: false
+```
