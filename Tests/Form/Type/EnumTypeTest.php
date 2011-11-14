@@ -217,7 +217,7 @@ class EnumTypeTest extends \PHPUnit_Framework_TestCase
         $field->setData(null);
 
         $this->assertNull($field->getData());
-        $this->assertEquals(array('1' => false, '2' => false), $field->getClientData());
+        $this->assertEquals(array('0' => false, '1' => false, '2' => false), $field->getClientData());
     }
 
     public function testSetDataMultipleNonExpandedNull()
@@ -260,7 +260,7 @@ class EnumTypeTest extends \PHPUnit_Framework_TestCase
         $field->setData($data);
 
         $this->assertEquals($data, $field->getData());
-        $this->assertEquals(array('1' => true, '2' => false), $field->getClientData());
+        $this->assertEquals(array('0' => false, '1' => true, '2' => false), $field->getClientData());
     }
 
     public function testSetDataMultipleExpanded_FlagEnum()
