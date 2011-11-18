@@ -21,7 +21,7 @@ Installation
 Add the following lines in your deps file:
 
     [BiplaneEnumBundle]
-        git=https://github.com/yethee/BiplaneEnumBundle.git
+        git=http://github.com/yethee/BiplaneEnumBundle.git
         target=bundles/Biplane/EnumBundle
 
 Run the vendors script:
@@ -33,7 +33,7 @@ $ php bin/vendors install
 **Using Git submodule**
 
 ```bash
-$ git submodule add https://github.com/yethee/BiplaneEnumBundle.git vendor/bundles/Biplane/EnumBundle
+$ git submodule add http://github.com/yethee/BiplaneEnumBundle.git vendor/bundles/Biplane/EnumBundle
 ```
 
 ### Add the Biplane namespace to your autoloader
