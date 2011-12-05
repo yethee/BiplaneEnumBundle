@@ -4,6 +4,7 @@ namespace Biplane\EnumBundle\Tests\Enumeration;
 
 use Biplane\EnumBundle\Enumeration\Enum;
 use Biplane\EnumBundle\Tests\Fixtures\SimpleEnum;
+use Biplane\EnumBundle\Tests\Fixtures\ExtendedSimpleEnum;
 
 /**
  * @author Denis Vasilev <yethee@biplane.ru>
@@ -55,6 +56,21 @@ class EnumTest extends \PHPUnit_Framework_TestCase
     public function testExceptionIsRaisedWhenValueCannotBeReadable()
     {
         SimpleEnum::getReadableFor(3);
+    }
+
+    public function testEnumsForEqualsWithSameClass()
+    {
+        $enum = SimpleEnum::create(SimpleEnum::FIRST);
+
+        $this->assertTrue($enum->equals(SimpleEnum::create(SimpleEnum::FIRST)));
+        $this->assertFalse($enum->equals(SimpleEnum::create(SimpleEnum::SECOND)));
+    }
+
+    public function testEnumsForEqualsWithExtendedClasses()
+    {
+        $enum = SimpleEnum::create(SimpleEnum::FIRST);
+
+        $this->assertFalse($enum->equals(ExtendedSimpleEnum::create(ExtendedSimpleEnum::FIRST)));
     }
 
     public function enumValuesProvider()

@@ -67,4 +67,13 @@ interface EnumInterface
      * @return string
      */
     function getReadable();
+
+    /**
+     * Determines whether enums are equals.
+     *
+     * @param EnumInterface $enum
+     *
+     * @return bool
+     */
+    function equals(EnumInterface $enum);
 }

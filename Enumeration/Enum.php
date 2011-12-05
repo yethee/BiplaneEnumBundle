@@ -99,4 +99,17 @@ abstract class Enum implements EnumInterface
 
         return $humanRepresentations[$value];
     }
+
+    /**
+     * Determines whether enums are equals.
+     *
+     * @param EnumInterface $enum
+     *
+     * @return bool
+     */
+    public function equals(EnumInterface $enum)
+    {
+        return get_class($this) === get_class($enum) &&
+            $this->value === $enum->getValue();
+    }
 }
