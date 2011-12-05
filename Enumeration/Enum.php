@@ -16,7 +16,7 @@ abstract class Enum implements EnumInterface
     /**
      * The constructor is protected: use the static create method instead.
      *
-     * @param mixed $value
+     * @param mixed $value The raw value of an enumeration
      */
     protected function __construct($value)
     {
@@ -24,12 +24,13 @@ abstract class Enum implements EnumInterface
     }
 
     /**
-     * Creates a new instance of enumeration.
+     * Instanciates a new enumeration.
      *
-     * @param mixed $value
-     * @return EnumInterface
+     * @param mixed $value The value of a particular enumerated constant
      *
-     * @throws InvalidEnumArgumentException
+     * @return EnumInterface A new instance of an enum
+     *
+     * @throws InvalidEnumArgumentException When $value is not acceptable for this enumeration type
      */
     public static function create($value)
     {
@@ -74,7 +75,8 @@ abstract class Enum implements EnumInterface
      * Tells is this value is acceptable.
      *
      * @param mixed $value
-     * @return boolean
+     *
+     * @return boolean True if $value is acceptable for this enumeration type; otherwise false
      */
     public static function isAcceptableValue($value)
     {
@@ -84,10 +86,11 @@ abstract class Enum implements EnumInterface
     /**
      * Gets the human representation for a given value.
      *
-     * @param mixed $value
-     * @return string
+     * @param mixed $value The value of a particular enumerated constant
      *
-     * @throws InvalidEnumArgumentException
+     * @return string The human representation for a given value
+     *
+     * @throws InvalidEnumArgumentException When $value is not acceptable for this enumeration type
      */
     public static function getReadableFor($value)
     {
@@ -103,9 +106,9 @@ abstract class Enum implements EnumInterface
     /**
      * Determines whether enums are equals.
      *
-     * @param EnumInterface $enum
+     * @param EnumInterface $enum An enum object to compare with this instance
      *
-     * @return bool
+     * @return bool True if $enum is an enum with the same type and value as this instance; otherwise, false
      */
     public function equals(EnumInterface $enum)
     {

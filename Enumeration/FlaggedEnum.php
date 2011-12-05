@@ -16,10 +16,11 @@ abstract class FlaggedEnum extends Enum
     /**
      * Tells is this value is acceptable.
      *
-     * @param int $value
-     * @return boolean
+     * @param mixed $value
      *
-     * @throw \InvalidArgumentException When invalid type of $value.
+     * @return boolean True if $value is acceptable for this enumeration type; otherwise false
+     *
+     * @throws \InvalidArgumentException When $value is invalid type
      */
     public static function isAcceptableValue($value)
     {
@@ -39,10 +40,11 @@ abstract class FlaggedEnum extends Enum
     /**
      * Gets the human representation for a given value.
      *
-     * @param int $value
-     * @return string
+     * @param mixed $value The value of a particular enumerated constant
      *
-     * @throws InvalidEnumArgumentException
+     * @return string The human representation for a given value
+     *
+     * @throws InvalidEnumArgumentException When $value is not acceptable for this enumeration type
      */
     public static function getReadableFor($value)
     {
@@ -122,8 +124,9 @@ abstract class FlaggedEnum extends Enum
     /**
      * Determines whether the specified flag is set in a numeric value.
      *
-     * @param int $bitFlag
-     * @return bool
+     * @param int $bitFlag The bit flag or bit flags.
+     *
+     * @return bool True if the bit flag or bit flags are also set in the current instance; otherwise, false
      */
     public function hasFlag($bitFlag)
     {
