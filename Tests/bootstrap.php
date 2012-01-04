@@ -1,22 +1,22 @@
 <?php
 
-$vendorDir = __DIR__ . '/../vendor';
-require_once $vendorDir . '/symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php';
+if (file_exists($file = __DIR__ . '/../vendor/.composer/autoload.php')) {
+    require_once $file;
+} else {
+    die(<<<'EOT'
 
-use Symfony\Component\ClassLoader\UniversalClassLoader;
+You must set up the project dependencies, run the following commands:
+wget http://getcomposer.org/composer.phar
+php composer.phar install
 
-$loader = new UniversalClassLoader();
-$loader->registerNamespaces(array(
-    'Symfony'  => $vendorDir . '/symfony/src',
-    'Doctrine' => $vendorDir . '/doctrine-common/lib',
-    'Metadata' => $vendorDir . '/metadata/src',
-    'JMS'      => $vendorDir,
-));
-$loader->register();
+
+EOT
+    );
+}
 
 spl_autoload_register(function($class) {
     if (0 === strpos($class, 'Biplane\\EnumBundle\\')) {
-        $path = __DIR__ . '/../' . implode('/', array_slice(explode('\\', $class), 2)).'.php';
+        $path = __DIR__ . '/../' . implode('/', array_slice(explode('\\', $class), 2)) . '.php';
         if (!stream_resolve_include_path($path)) {
             return false;
         }
