@@ -5,7 +5,8 @@ namespace Biplane\EnumBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\Exception\FormException;
-use Biplane\EnumBundle\Form\DataTransformer\ChoiceToEnumTransformer;
+use Biplane\EnumBundle\Form\DataTransformer\ValueToEnumTransformer;
+use Biplane\EnumBundle\Form\DataTransformer\ValuesToEnumsTransformer;
 
 /**
  * EnumType
@@ -14,6 +15,14 @@ use Biplane\EnumBundle\Form\DataTransformer\ChoiceToEnumTransformer;
  */
 class EnumType extends AbstractType
 {
+    /**
+     * Builds the form.
+     *
+     * @see FormTypeExtensionInterface::buildForm()
+     *
+     * @param FormBuilder $builder The form builder
+     * @param array       $options The options
+     */
     public function buildForm(FormBuilder $builder, array $options)
     {
         if (!$options['enum_class']) {
@@ -21,16 +30,25 @@ class EnumType extends AbstractType
         }
 
         try {
-            $builder->appendNormTransformer(new ChoiceToEnumTransformer($options['enum_class'], $options['multiple']));
-        }
-        catch (\InvalidArgumentException $ex) {
+            if ($options['multiple']) {
+                $builder->appendNormTransformer(new ValuesToEnumsTransformer($options['enum_class']));
+            } else {
+                $builder->appendNormTransformer(new ValueToEnumTransformer($options['enum_class']));
+            }
+        } catch (\InvalidArgumentException $ex) {
             throw new FormException($ex->getMessage());
-        }
-        catch (\ReflectionException $ex) {
+        } catch (\ReflectionException $ex) {
             throw new FormException(sprintf('The "enum_class" (%s) does not exist.', $options['enum_class']));
         }
     }
 
+    /**
+     * Returns the default options for this type.
+     *
+     * @param array $options
+     *
+     * @return array The default options
+     */
     public function getDefaultOptions(array $options)
     {
         $defaultOptions = array(
@@ -44,11 +62,23 @@ class EnumType extends AbstractType
         return $defaultOptions;
     }
 
+    /**
+     * Returns the name of the parent type.
+     *
+     * @param array $options
+     *
+     * @return string|null The name of the parent type if any otherwise null
+     */
     public function getParent(array $options)
     {
         return 'choice';
     }
 
+    /**
+     * Returns the name of this type.
+     *
+     * @return string The name of this type
+     */
     public function getName()
     {
         return 'biplane_enum';
