@@ -1,7 +1,9 @@
-BiplaneEnumBundle [![Build Status](https://secure.travis-ci.org/yethee/BiplaneEnumBundle.png)](http://travis-ci.org/yethee/BiplaneEnumBundle)
+BiplaneEnumBundle [![Build Status](https://secure.travis-ci.org/yethee/BiplaneEnumBundle.png?branch=2.0)](http://travis-ci.org/yethee/BiplaneEnumBundle)
 =================
 
 This bundle provides a typed enumeration for your Symfony2 project.
+
+**Note:** This branch is compatible with 2.0.x versions of Symfony.
 
 ### Features
 
