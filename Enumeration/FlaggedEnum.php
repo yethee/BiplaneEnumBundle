@@ -132,4 +132,44 @@ abstract class FlaggedEnum extends Enum
     {
         return $bitFlag === ($bitFlag & $this->value);
     }
+
+    /**
+     * Adds a bitmask to the value of this instance.
+     *
+     * Returns a new instance of this enumeration type.
+     *
+     * @param int $flags The bit flag or bit flags
+     *
+     * @return EnumInterface A new instance of the enumeration
+     *
+     * @throws InvalidEnumArgumentException When $flags is not acceptable for this enumeration type
+     */
+    public function addFlags($flags)
+    {
+        if (!static::isAcceptableValue($flags)) {
+            throw new InvalidEnumArgumentException($flags);
+        }
+
+        return static::create($this->value | $flags);
+    }
+
+    /**
+     * Removes a bitmask from the value of this instance.
+     *
+     * Returns a new instance of this enumeration type.
+     *
+     * @param int $flags The bit flag or bit flags
+     *
+     * @return EnumInterface A new instance of the enumeration
+     *
+     * @throws InvalidEnumArgumentException When $flags is not acceptable for this enumeration type
+     */
+    public function removeFlags($flags)
+    {
+        if (!static::isAcceptableValue($flags)) {
+            throw new InvalidEnumArgumentException($flags);
+        }
+
+        return static::create($this->value & ~$flags);
+    }
 }
