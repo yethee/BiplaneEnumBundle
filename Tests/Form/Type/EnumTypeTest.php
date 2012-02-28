@@ -157,6 +157,7 @@ class EnumTypeTest extends \PHPUnit_Framework_TestCase
         $field->bind(null);
 
         $this->assertNull($field->getData());
+        $this->assertEquals(array(), $field->getNormData());
         $this->assertEquals(array(), $field->getClientData());
     }
 
@@ -170,8 +171,11 @@ class EnumTypeTest extends \PHPUnit_Framework_TestCase
 
         $field->bind(array('1' => '1'));
 
+        $data = array(SimpleEnum::create(1));
+
         $this->assertTrue($field->isSynchronized());
-        $this->assertEquals(array(SimpleEnum::create(1)), $field->getData());
+        $this->assertEquals($data, $field->getData());
+        $this->assertEquals($data, $field->getNormData());
         $this->assertSame(true, $field['1']->getData());
         $this->assertSame(false, $field['2']->getData());
         $this->assertSame('1', $field['1']->getClientData());
@@ -190,6 +194,7 @@ class EnumTypeTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($field->isSynchronized());
         $this->assertEquals(FlagsEnum::create(1 | 2), $field->getData());
+        $this->assertEquals(array(1, 2), $field->getNormData());
         $this->assertSame(true, $field['0']->getData());
         $this->assertSame(true, $field['1']->getData());
         $this->assertSame(false, $field['2']->getData());
@@ -280,6 +285,7 @@ class EnumTypeTest extends \PHPUnit_Framework_TestCase
         $field->setData($data);
 
         $this->assertEquals($data, $field->getData());
+        $this->assertEquals(array(1, 4), $field->getNormData());
         $this->assertEquals(array('0' => true, '1' => false, '2' => true, '3' => false), $field->getClientData());
     }
 

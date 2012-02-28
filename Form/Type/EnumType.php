@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\Exception\FormException;
 use Biplane\EnumBundle\Form\DataTransformer\ValueToEnumTransformer;
 use Biplane\EnumBundle\Form\DataTransformer\ValuesToEnumsTransformer;
+use Biplane\EnumBundle\Form\DataTransformer\ValuesToFlaggedEnumTransformer;
 
 /**
  * EnumType
@@ -31,9 +32,13 @@ class EnumType extends AbstractType
 
         try {
             if ($options['multiple']) {
-                $builder->appendNormTransformer(new ValuesToEnumsTransformer($options['enum_class']));
+                if (is_subclass_of($options['enum_class'], 'Biplane\EnumBundle\Enumeration\FlaggedEnum')) {
+                    $builder->appendNormTransformer(new ValuesToFlaggedEnumTransformer($options['enum_class']));
+                } else {
+                    $builder->prependClientTransformer(new ValuesToEnumsTransformer($options['enum_class']));
+                }
             } else {
-                $builder->appendNormTransformer(new ValueToEnumTransformer($options['enum_class']));
+                $builder->prependClientTransformer(new ValueToEnumTransformer($options['enum_class']));
             }
         } catch (\InvalidArgumentException $ex) {
             throw new FormException($ex->getMessage());
