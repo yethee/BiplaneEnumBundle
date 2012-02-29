@@ -215,7 +215,7 @@ Or you can create a custom type of DBAL for move the logic of casting type from 
 use Doctrine\DBAL\Types\StringType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 
-class RoleType extend StringType
+class RoleType extends StringType
 {
     public function getName()
     {
