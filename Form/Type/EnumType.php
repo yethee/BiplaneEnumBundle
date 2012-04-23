@@ -3,6 +3,7 @@
 namespace Biplane\EnumBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Options;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\Exception\FormException;
 use Biplane\EnumBundle\Form\DataTransformer\ValueToEnumTransformer;
@@ -54,17 +55,17 @@ class EnumType extends AbstractType
      *
      * @return array The default options
      */
-    public function getDefaultOptions(array $options)
+    public function getDefaultOptions()
     {
-        $defaultOptions = array(
-            'enum_class' => isset($options['enum_class']) ? (string)$options['enum_class'] : null
+        return array(
+            'enum_class' => null,
+            'choices'    => function (Options $options) {
+                if (!empty($options['enum_class']) && method_exists($options['enum_class'], 'getReadables')) {
+                    return $options['enum_class']::getReadables();
+                }
+                return array();
+            },
         );
-
-        if (!empty($defaultOptions['enum_class']) && method_exists($defaultOptions['enum_class'], 'getReadables')) {
-            $defaultOptions['choices'] = $defaultOptions['enum_class']::getReadables();
-        }
-
-        return $defaultOptions;
     }
 
     /**
