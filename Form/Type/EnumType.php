@@ -24,6 +24,8 @@ class EnumType extends AbstractType
      *
      * @param FormBuilder $builder The form builder
      * @param array       $options The options
+     *
+     * @throws FormException
      */
     public function buildForm(FormBuilder $builder, array $options)
     {
@@ -51,8 +53,6 @@ class EnumType extends AbstractType
     /**
      * Returns the default options for this type.
      *
-     * @param array $options
-     *
      * @return array The default options
      */
     public function getDefaultOptions()
@@ -63,6 +63,7 @@ class EnumType extends AbstractType
                 if (!empty($options['enum_class']) && method_exists($options['enum_class'], 'getReadables')) {
                     return $options['enum_class']::getReadables();
                 }
+
                 return array();
             },
         );
