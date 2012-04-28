@@ -176,10 +176,10 @@ class EnumTypeTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($field->isSynchronized());
         $this->assertEquals($data, $field->getData());
         $this->assertEquals($data, $field->getNormData());
-        $this->assertSame(true, $field['1']->getData());
-        $this->assertSame(false, $field['2']->getData());
+        $this->assertTrue($field['1']->getData());
+        $this->assertFalse($field['2']->getData());
         $this->assertSame('1', $field['1']->getClientData());
-        $this->assertSame('', $field['2']->getClientData());
+        $this->assertNull($field['2']->getClientData());
     }
 
     public function testBindMultipleExpanded_FlagEnum()
@@ -195,14 +195,14 @@ class EnumTypeTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($field->isSynchronized());
         $this->assertEquals(FlagsEnum::create(1 | 2), $field->getData());
         $this->assertEquals(array(1, 2), $field->getNormData());
-        $this->assertSame(true, $field['0']->getData());
-        $this->assertSame(true, $field['1']->getData());
-        $this->assertSame(false, $field['2']->getData());
-        $this->assertSame(false, $field['3']->getData());
+        $this->assertTrue($field['0']->getData());
+        $this->assertTrue($field['1']->getData());
+        $this->assertFalse($field['2']->getData());
+        $this->assertFalse($field['3']->getData());
         $this->assertSame('1', $field['0']->getClientData());
-        $this->assertSame('1', $field['1']->getClientData());
-        $this->assertSame('', $field['2']->getClientData());
-        $this->assertSame('', $field['3']->getClientData());
+        $this->assertSame('2', $field['1']->getClientData());
+        $this->assertNull($field['2']->getClientData());
+        $this->assertNull($field['3']->getClientData());
     }
 
     public function testSetDataSingleNull()
