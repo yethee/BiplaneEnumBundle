@@ -3,9 +3,9 @@
 namespace Biplane\EnumBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Options;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\Exception\FormException;
+use Symfony\Component\OptionsResolver\Options;
 use Biplane\EnumBundle\Form\DataTransformer\ValueToEnumTransformer;
 use Biplane\EnumBundle\Form\DataTransformer\ValuesToEnumsTransformer;
 use Biplane\EnumBundle\Form\DataTransformer\ValuesToFlaggedEnumTransformer;
