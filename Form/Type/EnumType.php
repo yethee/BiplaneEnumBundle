@@ -3,12 +3,13 @@
 namespace Biplane\EnumBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Exception\FormException;
 use Symfony\Component\OptionsResolver\Options;
-use Biplane\EnumBundle\Form\DataTransformer\ValueToEnumTransformer;
-use Biplane\EnumBundle\Form\DataTransformer\ValuesToEnumsTransformer;
-use Biplane\EnumBundle\Form\DataTransformer\ValuesToFlaggedEnumTransformer;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Biplane\EnumBundle\Form\DataTransformer\EnumToValueTransformer;
+use Biplane\EnumBundle\Form\DataTransformer\EnumsToValuesTransformer;
+use Biplane\EnumBundle\Form\DataTransformer\FlaggedEnumToValuesTransformer;
 
 /**
  * EnumType
@@ -20,28 +21,22 @@ class EnumType extends AbstractType
     /**
      * Builds the form.
      *
-     * @see FormTypeExtensionInterface::buildForm()
-     *
-     * @param FormBuilder $builder The form builder
-     * @param array       $options The options
+     * @param FormBuilderInterface $builder The form builder
+     * @param array                $options The options
      *
      * @throws FormException
      */
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if (!$options['enum_class']) {
-            throw new FormException('The option "enum_class" is required.');
-        }
-
         try {
             if ($options['multiple']) {
                 if (is_subclass_of($options['enum_class'], 'Biplane\EnumBundle\Enumeration\FlaggedEnum')) {
-                    $builder->appendNormTransformer(new ValuesToFlaggedEnumTransformer($options['enum_class']));
+                    $builder->addModelTransformer(new FlaggedEnumToValuesTransformer($options['enum_class']));
                 } else {
-                    $builder->prependClientTransformer(new ValuesToEnumsTransformer($options['enum_class']));
+                    $builder->addModelTransformer(new EnumsToValuesTransformer($options['enum_class']));
                 }
             } else {
-                $builder->prependClientTransformer(new ValueToEnumTransformer($options['enum_class']));
+                $builder->addModelTransformer(new EnumToValueTransformer($options['enum_class']));
             }
         } catch (\InvalidArgumentException $ex) {
             throw new FormException($ex->getMessage());
@@ -51,32 +46,40 @@ class EnumType extends AbstractType
     }
 
     /**
-     * Returns the default options for this type.
+     * Sets the default options for this type.
      *
-     * @return array The default options
+     * @param OptionsResolverInterface $resolver The resolver for the options.
      */
-    public function getDefaultOptions()
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        return array(
-            'enum_class' => null,
-            'choices'    => function (Options $options) {
-                if (!empty($options['enum_class']) && method_exists($options['enum_class'], 'getReadables')) {
-                    return $options['enum_class']::getReadables();
-                }
+        $choices = function(Options $options) {
+            if ($options['enum_class'] !== null && method_exists($options['enum_class'], 'getReadables')) {
+                return $options['enum_class']::getReadables();
+            }
 
-                return array();
-            },
-        );
+            return array();
+        };
+
+        $enumClass = function(Options $options) {
+            return is_object($options['data']) ? get_class($options['data']) : null;
+        };
+
+        $resolver->setDefaults(array(
+            'enum_class' => $enumClass,
+            'choices'     => $choices,
+        ));
+
+        $resolver->setAllowedTypes(array(
+            'enum_class' => 'string'
+        ));
     }
 
     /**
      * Returns the name of the parent type.
      *
-     * @param array $options
-     *
      * @return string|null The name of the parent type if any otherwise null
      */
-    public function getParent(array $options)
+    public function getParent()
     {
         return 'choice';
     }

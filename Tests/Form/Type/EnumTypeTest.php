@@ -18,11 +18,11 @@ class EnumTypeTest extends \PHPUnit_Framework_TestCase
     const FLAGS_ENUM_CLASS = 'Biplane\\EnumBundle\\Tests\\Fixtures\\FlagsEnum';
 
     /**
-     * @var \Symfony\Component\Form\FormFactory
+     * @var FormFactory
      */
     protected $factory;
     /**
-     * @var \Symfony\Component\Form\FormBuilder
+     * @var FormBuilder
      */
     protected $builder;
     /**
@@ -31,14 +31,11 @@ class EnumTypeTest extends \PHPUnit_Framework_TestCase
     protected $dispatcher;
 
     /**
-     * @expectedException Symfony\Component\Form\Exception\FormException
-     * @expectedExceptionMessage The option "enum_class" is required.
+     * @expectedException Symfony\Component\OptionsResolver\Exception\InvalidOptionsException
      */
     public function testThrowExceptionWhenOptionEnumClassIsMissing()
     {
-        $this->factory->create('biplane_enum', null, array(
-            'choices' => array('1' => '1')
-        ));
+        $this->factory->create('biplane_enum');
     }
 
     /**
@@ -48,7 +45,6 @@ class EnumTypeTest extends \PHPUnit_Framework_TestCase
     public function testThrowExceptionWhenSpecifiedEnumClassNotImplementEnumInterface()
     {
         $this->factory->create('biplane_enum', null, array(
-            'choices' => array('1' => '1'),
             'enum_class' => __CLASS__
         ));
     }
@@ -60,7 +56,6 @@ class EnumTypeTest extends \PHPUnit_Framework_TestCase
     public function testThrowExceptionWhenSpecifiedEnumClassDoesNotExists()
     {
         $this->factory->create('biplane_enum', null, array(
-            'choices' => array('1' => '1'),
             'enum_class' => 'InvalidClass'
         ));
     }
@@ -175,7 +170,7 @@ class EnumTypeTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($field->isSynchronized());
         $this->assertEquals($data, $field->getData());
-        $this->assertEquals($data, $field->getNormData());
+        $this->assertEquals(array(1), $field->getNormData());
         $this->assertTrue($field['1']->getData());
         $this->assertFalse($field['2']->getData());
         $this->assertSame('1', $field['1']->getClientData());
@@ -293,7 +288,7 @@ class EnumTypeTest extends \PHPUnit_Framework_TestCase
     {
         $this->dispatcher = $this->getMock('Symfony\\Component\\EventDispatcher\\EventDispatcherInterface');
         $this->factory = new FormFactory(array(new CoreExtension()));
-        $this->builder = new FormBuilder(null, $this->factory, $this->dispatcher);
+        $this->builder = new FormBuilder(null, null, $this->dispatcher, $this->factory);
 
         $this->factory->addType(new EnumType());
     }
