@@ -9,17 +9,19 @@
     ],
 
     "require": {
-        "php":             ">=5.3.2",
-        "symfony/symfony": "2.1.*"
+        "php": ">=5.3.2",
+        "symfony/framework-bundle": "2.1.*",
+        "symfony/form": "2.1.*"
     },
 
     "require-dev": {
         "jms/serializer-bundle": "dev-master",
-        "doctrine/common":       ">=2.0"
+        "symfony/serializer": "2.1.*"
     },
 
     "suggest": {
-        "jms/serializer-bundle": "*"
+        "jms/serializer-bundle": "*",
+        "symfony/serializer": "2.1.*"
     },
 
     "autoload": {
