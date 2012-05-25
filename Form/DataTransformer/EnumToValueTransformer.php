@@ -9,11 +9,11 @@ use Biplane\EnumBundle\Enumeration\EnumInterface;
 use Biplane\EnumBundle\Exception\InvalidEnumArgumentException;
 
 /**
- * Transforms between a raw value and an enumeration instance.
+ * Transforms between an enumeration instance and a raw value.
  *
  * @author Denis Vasilev <yethee@biplane.ru>
  */
-class ValueToEnumTransformer extends BaseEnumTransformer
+class EnumToValueTransformer extends BaseEnumTransformer
 {
     /**
      * Transforms a raw value to enumeration object.

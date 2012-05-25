@@ -12,7 +12,7 @@ use Biplane\EnumBundle\Exception\InvalidEnumArgumentException;
  *
  * @author Denis Vasilev <yethee@biplane.ru>
  */
-class ValuesToEnumsTransformer extends BaseEnumTransformer
+class EnumsToValuesTransformer extends BaseEnumTransformer
 {
     /**
      * Transforms an array of raw values to enumeration objects.
@@ -63,7 +63,7 @@ class ValuesToEnumsTransformer extends BaseEnumTransformer
         foreach ($values as $value) {
             if (!$value instanceof $this->enumClass) {
                 throw new TransformationFailedException(sprintf(
-                    'Value "%s" is not instance of %s.',
+                    'Could not convert a value of type "%s" to choice, it is to be an instance of %s.',
                     is_object($value) ? get_class($value) : gettype($value), $this->enumClass
                 ));
             }

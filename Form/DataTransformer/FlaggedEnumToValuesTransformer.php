@@ -7,20 +7,20 @@ use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Biplane\EnumBundle\Enumeration\FlaggedEnum;
 
 /**
- * Transforms between a raw values and the flagged enumeration instance.
+ * Transforms between a bit flags and the flagged enumeration instance.
  *
  * @author Denis Vasilev <yethee@biplane.ru>
  */
-class ValuesToFlaggedEnumTransformer extends BaseEnumTransformer
+class FlaggedEnumToValuesTransformer extends BaseEnumTransformer
 {
     /**
-     * Transforms an array of enumeration objects to a raw values.
+     * Transforms a FlaggedEnum objects to an array of bit flags.
      *
      * @param FlaggedEnum $value A FlaggedEnum instance
      *
-     * @return array An array of raw values
+     * @return array An array of bit flags
      *
-     * @throws UnexpectedTypeException When $value is the flagged enumeration
+     * @throws UnexpectedTypeException When $value is not the flagged enumeration
      */
     public function transform($value)
     {
