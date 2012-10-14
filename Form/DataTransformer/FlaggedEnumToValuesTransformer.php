@@ -51,10 +51,6 @@ class FlaggedEnumToValuesTransformer extends BaseEnumTransformer
             throw new UnexpectedTypeException($values, 'array');
         }
 
-        if (count($values) == 0) {
-            return null;
-        }
-
         $rawValue = 0;
 
         foreach ($values as $value) {

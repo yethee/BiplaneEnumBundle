@@ -134,7 +134,7 @@ class EnumTypeTest extends TypeTestCase
 
         $field->bind(null);
 
-        $this->assertNull($field->getData());
+        $this->assertEquals(0, $field->getData()->getValue());
         $this->assertEquals(array(), $field->getNormData());
         $this->assertEquals(array(), $field->getClientData());
     }
@@ -265,6 +265,11 @@ class EnumTypeTest extends TypeTestCase
         $this->assertEquals($data, $field->getData());
         $this->assertEquals(array(1, 4), $field->getNormData());
         $this->assertEquals(array('0' => true, '1' => false, '2' => true, '3' => false), $field->getClientData());
+    }
+
+    public function testReadableForEmptyFlagEnum()
+    {
+        $this->assertEquals(FlagsEnum::EMPTY_READABLE, FlagsEnum::create(0));
     }
 
     protected function setUp()

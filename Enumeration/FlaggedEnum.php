@@ -11,6 +11,9 @@ use Biplane\EnumBundle\Exception\InvalidEnumArgumentException;
  */
 abstract class FlaggedEnum extends Enum
 {
+    const SEPARATOR = ';';
+    const EMPTY_READABLE = 'None';
+
     private static $masks = array();
 
     protected $flags;
@@ -33,10 +36,6 @@ abstract class FlaggedEnum extends Enum
             ));
         }
 
-        if ($value === 0) {
-            return parent::isAcceptableValue($value);
-        }
-        
         return $value === ($value & static::getBitmask());
     }
 
@@ -69,7 +68,9 @@ abstract class FlaggedEnum extends Enum
             }
         }
 
-        return implode('; ', $parts);
+        if (0 == count($parts)) return static::EMPTY_READABLE;
+
+        return implode(static::SEPARATOR . ' ', $parts);
     }
 
     /**
@@ -87,10 +88,6 @@ abstract class FlaggedEnum extends Enum
             $mask = 0;
 
             foreach (static::getPossibleValues() as $flag) {
-                if ($flag === 0) {
-                    continue;
-                }
-
                 if ($flag < 1 || ($flag > 1 && ($flag % 2) !== 0)) {
                     throw new \UnexpectedValueException(sprintf(
                         'Possible value (%d) of the enumeration is not the bit flag.', $flag
