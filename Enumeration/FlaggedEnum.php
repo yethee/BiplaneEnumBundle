@@ -46,12 +46,12 @@ abstract class FlaggedEnum extends Enum
      * Gets the human representation for a given value.
      *
      * @param mixed $value The value of a particular enumerated constant
-     *
+     * @param string $separator
      * @return string The human representation for a given value
      *
      * @throws InvalidEnumArgumentException When $value is not acceptable for this enumeration type
      */
-    public static function getReadableFor($value)
+    public static function getReadableFor($value, $separator = '; ')
     {
         if (!static::isAcceptableValue($value)) {
             throw new InvalidEnumArgumentException($value);
@@ -75,7 +75,7 @@ abstract class FlaggedEnum extends Enum
             }
         }
 
-        return implode('; ', $parts);
+        return implode($separator, $parts);
     }
 
     /**
@@ -142,6 +142,15 @@ abstract class FlaggedEnum extends Enum
         }
 
         return $mask;
+    }
+
+    /**
+     * @param string $separator
+     * @return string
+     */
+    public function getReadable($separator = '; ')
+    {
+        return static::getReadableFor($this->getValue(), $separator);
     }
 
     /**
