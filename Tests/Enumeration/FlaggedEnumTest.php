@@ -3,7 +3,6 @@
 namespace Biplane\EnumBundle\Tests\Enumeration;
 
 use Biplane\EnumBundle\Tests\Fixtures\FlagsEnum;
-use Biplane\EnumBundle\Tests\Fixtures\FlagsWithZeroEnum;
 use Biplane\EnumBundle\Tests\Fixtures\InvalidFlagsEnum;
 
 /**
@@ -41,11 +40,11 @@ class FlaggedEnumTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFlagsOfValue()
     {
-        $value = FlagsWithZeroEnum::create(
-            FlagsWithZeroEnum::NONE | FlagsWithZeroEnum::FIRST | FlagsWithZeroEnum::THIRD
+        $value = FlagsEnum::create(
+            FlagsEnum::NONE | FlagsEnum::FIRST | FlagsEnum::THIRD
         );
 
-        $this->assertEquals(array(FlagsWithZeroEnum::FIRST, FlagsWithZeroEnum::THIRD), $value->getFlags());
+        $this->assertEquals(array(FlagsEnum::FIRST, FlagsEnum::THIRD), $value->getFlags());
     }
 
     public function testSingleFlagCanBeReadabled()
@@ -92,6 +91,17 @@ class FlaggedEnumTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($result->hasFlag(FlagsEnum::FOURTH));
     }
 
+    public function testRemoveAllFlags()
+    {
+        $value = FlagsEnum::FIRST | FlagsEnum::THIRD;
+        $original = FlagsEnum::create($value);
+
+        $result = $original->removeFlags($value);
+
+        $this->assertCount(0, $result->getFlags());
+        $this->assertEquals(FlagsEnum::NONE, $result->getValue());
+    }
+
     /**
      * @expectedException \Biplane\EnumBundle\Exception\InvalidEnumArgumentException
      */
@@ -99,13 +109,13 @@ class FlaggedEnumTest extends \PHPUnit_Framework_TestCase
     {
         $value = FlagsEnum::create(FlagsEnum::FIRST);
 
-        $value->removeFlags(0);
+        $value->removeFlags(99);
     }
 
     public function valuesProvider()
     {
         return array(
-            array(0, false),
+            array(0, true),
             array(FlagsEnum::FIRST, true),
             array(3, true),
             array(8, false),
