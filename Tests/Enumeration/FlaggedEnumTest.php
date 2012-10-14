@@ -57,6 +57,11 @@ class FlaggedEnumTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('First; Second', FlagsEnum::getReadableFor(FlagsEnum::FIRST | FlagsEnum::SECOND));
     }
 
+    public function testNoneCanBeReadabled()
+    {
+        $this->assertEquals('None', FlagsEnum::getReadableFor(FlagsEnum::NONE));
+    }
+
     public function testAddFlags()
     {
         $original = FlagsEnum::create(FlagsEnum::FIRST | FlagsEnum::THIRD);

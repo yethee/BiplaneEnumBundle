@@ -57,6 +57,10 @@ abstract class FlaggedEnum extends Enum
             throw new InvalidEnumArgumentException($value);
         }
 
+        if ($value === self::NONE) {
+            return static::getReadableForNone();
+        }
+
         $humanRepresentations = static::getReadables();
 
         if (isset($humanRepresentations[$value])) {
@@ -72,6 +76,16 @@ abstract class FlaggedEnum extends Enum
         }
 
         return implode('; ', $parts);
+    }
+
+    /**
+     * Gets the human representation for the none value.
+     *
+     * @return string
+     */
+    protected static function getReadableForNone()
+    {
+        return 'None';
     }
 
     /**
