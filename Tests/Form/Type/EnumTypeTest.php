@@ -4,6 +4,7 @@ namespace Biplane\EnumBundle\Tests\Form\Type;
 
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\Tests\Extension\Core\Type\TypeTestCase;
+use Biplane\EnumBundle\Enumeration\FlaggedEnum;
 use Biplane\EnumBundle\Form\Type\EnumType;
 use Biplane\EnumBundle\Tests\Fixtures\SimpleEnum;
 use Biplane\EnumBundle\Tests\Fixtures\FlagsEnum;
@@ -134,7 +135,8 @@ class EnumTypeTest extends TypeTestCase
 
         $field->bind(null);
 
-        $this->assertNull($field->getData());
+        $this->assertInstanceOf(self::FLAGS_ENUM_CLASS, $field->getData());
+        $this->assertEquals(FlaggedEnum::NONE, $field->getData()->getValue());
         $this->assertEquals(array(), $field->getNormData());
         $this->assertEquals(array(), $field->getClientData());
     }

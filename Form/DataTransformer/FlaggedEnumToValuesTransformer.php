@@ -52,7 +52,7 @@ class FlaggedEnumToValuesTransformer extends BaseEnumTransformer
         }
 
         if (count($values) == 0) {
-            return null;
+            return $this->createEnum(FlaggedEnum::NONE);
         }
 
         $rawValue = 0;
