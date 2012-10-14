@@ -56,12 +56,14 @@ class FlaggedEnumToValuesTransformer extends BaseEnumTransformer
         }
 
         $rawValue = 0;
+
         foreach ($values as $value) {
             if (!is_integer($value)) {
                 throw new TransformationFailedException(sprintf(
                     'The value "%s" (type of %s) must be the integer type.', $value, gettype($value)
                 ));
             }
+
             $rawValue |= $value;
         }
 

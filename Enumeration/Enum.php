@@ -112,7 +112,6 @@ abstract class Enum implements EnumInterface
      */
     public function equals(EnumInterface $enum)
     {
-        return get_class($this) === get_class($enum) &&
-            $this->value === $enum->getValue();
+        return get_class($this) === get_class($enum) && $this->value === $enum->getValue();
     }
 }

@@ -25,9 +25,10 @@ abstract class FlaggedEnum extends Enum
     public static function isAcceptableValue($value)
     {
         if (!is_int($value)) {
-            throw new \InvalidArgumentException(
-                sprintf('Expected argument of type "integer", "%s" given.', is_object($value) ? get_class($value) : gettype($value))
-            );
+            throw new \InvalidArgumentException(sprintf(
+                'Expected argument of type "integer", "%s" given.',
+                is_object($value) ? get_class($value) : gettype($value)
+            ));
         }
 
         if ($value === 0) {
@@ -92,7 +93,9 @@ abstract class FlaggedEnum extends Enum
 
         foreach (static::getPossibleValues() as $flag) {
             if ($flag > 1 && ($flag % 2) !== 0) {
-                throw new \UnexpectedValueException(sprintf('Possible value (%d) of the enumeration is not the bit flag.', $flag));
+                throw new \UnexpectedValueException(sprintf(
+                    'Possible value (%d) of the enumeration is not the bit flag.', $flag
+                ));
             }
 
             $mask |= $flag;

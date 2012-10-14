@@ -60,6 +60,7 @@ class EnumsToValuesTransformer extends BaseEnumTransformer
         }
 
         $result = array();
+
         foreach ($values as $value) {
             if (!$value instanceof $this->enumClass) {
                 throw new TransformationFailedException(sprintf(
@@ -67,6 +68,7 @@ class EnumsToValuesTransformer extends BaseEnumTransformer
                     is_object($value) ? get_class($value) : gettype($value), $this->enumClass
                 ));
             }
+
             $result[] = $value->getValue();
         }
 
