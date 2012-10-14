@@ -50,16 +50,29 @@ class FlaggedEnumTest extends \PHPUnit_Framework_TestCase
     public function testSingleFlagCanBeReadabled()
     {
         $this->assertEquals('First', FlagsEnum::getReadableFor(FlagsEnum::FIRST));
+        $instance = FlagsEnum::create(FlagsEnum::FIRST);
+        $this->assertEquals('First', $instance->getReadable());
     }
 
     public function testMultipleFlagsCanBeReadabled()
     {
         $this->assertEquals('First; Second', FlagsEnum::getReadableFor(FlagsEnum::FIRST | FlagsEnum::SECOND));
+        $instance = FlagsEnum::create(FlagsEnum::FIRST | FlagsEnum::SECOND);
+        $this->assertEquals('First; Second', $instance->getReadable());
     }
 
     public function testNoneCanBeReadabled()
     {
         $this->assertEquals('None', FlagsEnum::getReadableFor(FlagsEnum::NONE));
+        $instance = FlagsEnum::create(FlagsEnum::NONE);
+        $this->assertEquals('None', $instance->getReadable());
+    }
+
+    public function testReadableSeparatorCanBeChanged()
+    {
+        $this->assertEquals('First | Second', FlagsEnum::getReadableFor(FlagsEnum::FIRST | FlagsEnum::SECOND, ' | '));
+        $instance = FlagsEnum::create(FlagsEnum::FIRST | FlagsEnum::SECOND);
+        $this->assertEquals('First | Second', $instance->getReadable(' | '));
     }
 
     public function testAddFlags()
