@@ -155,11 +155,6 @@ class Permissions extends FlaggedEnum
             static::ALL => 'All permissions',
         );
     }
-
-    static protected function getBitmask()
-    {
-        return static::ALL;
-    }
 }
 ```
 
