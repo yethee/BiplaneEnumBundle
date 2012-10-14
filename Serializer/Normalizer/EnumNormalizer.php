@@ -38,10 +38,7 @@ class EnumNormalizer extends SerializerAwareNormalizer implements NormalizerInte
      */
     public function denormalize($data, $class, $format = null)
     {
-        $reflection = new \ReflectionClass($class);
-        $method = $reflection->getMethod('create');
-
-        return $method->invoke(null, $data);
+        return call_user_func(array($class, 'create'), $data);
     }
 
     /**
@@ -71,9 +68,7 @@ class EnumNormalizer extends SerializerAwareNormalizer implements NormalizerInte
         $reflection = new \ReflectionClass($type);
 
         if ($reflection->isSubclassOf('Biplane\\EnumBundle\\Enumeration\\EnumInterface')) {
-            $method = $reflection->getMethod('isAcceptableValue');
-
-            if ($method->invoke(null, $data)) {
+            if (call_user_func(array($type, 'isAcceptableValue'), $data)) {
                 return true;
             }
         }
