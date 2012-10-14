@@ -29,12 +29,4 @@ class FlagsEnum extends FlaggedEnum
     {
         return array(self::FIRST, self::SECOND, self::THIRD, self::FOURTH);
     }
-
-    /**
-     * @return int
-     */
-    protected static function getBitmask()
-    {
-        return self::ALL;
-    }
 }

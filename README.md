@@ -120,17 +120,12 @@ You can also convert the object to a string to obtain the human representation o
 ### Bit flags support
 
 You can extend `Biplane\EnumBundle\Enumeration\FlaggedEnum` for an enumeration, if a bitwise operation
-is to be performed on a numeric value. In this case you should override three methods: `getPossibleValues()`,
-`getReadables()` and `getBitmask()`. The last method should return an integer value (bitmask)
-of the possible flags for an enumeration.
+is to be performed on a numeric value.
 
 In this case define enumeration constants in powers of two, that is, 1, 2, 4, 8, and so on.
 This means the individual flags in combined enumeration constants do not overlap. Also you can create
 an enumerated constant for commonly used flag combinations, but the values of these constants **must not be**
 returned by `getPossibleValues()` method.
-
-*Note:* to facilitate the implementation of `getBitmask()` you can use the `getMaskOfPossibleValues()` helper
-method. The result of this method should be cached for better performance.
 
 Below you can see the implementation of flags enumeration for permissions list:
 

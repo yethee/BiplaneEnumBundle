@@ -11,6 +11,8 @@ use Biplane\EnumBundle\Exception\InvalidEnumArgumentException;
  */
 abstract class FlaggedEnum extends Enum
 {
+    private static $masks = array();
+
     protected $flags;
 
     /**
@@ -74,10 +76,34 @@ abstract class FlaggedEnum extends Enum
      * Gets an integer value of the possible flags for enumeration.
      * 
      * @return int
+     *
+     * @throws \UnexpectedValueException
      */
     protected static function getBitmask()
     {
-        throw new \LogicException('This method must be overwritten.');
+        $enumType = get_called_class();
+
+        if (!isset(self::$masks[$enumType])) {
+            $mask = 0;
+
+            foreach (static::getPossibleValues() as $flag) {
+                if ($flag === 0) {
+                    continue;
+                }
+
+                if ($flag < 1 || ($flag > 1 && ($flag % 2) !== 0)) {
+                    throw new \UnexpectedValueException(sprintf(
+                        'Possible value (%d) of the enumeration is not the bit flag.', $flag
+                    ));
+                }
+
+                $mask |= $flag;
+            }
+
+            self::$masks[$enumType] = $mask;
+        }
+
+        return self::$masks[$enumType];
     }
 
     /**
@@ -86,6 +112,8 @@ abstract class FlaggedEnum extends Enum
      * @return int
      *
      * @throws \UnexpectedValueException
+     *
+     * @deprecated
      */
     protected static function getMaskOfPossibleValues()
     {

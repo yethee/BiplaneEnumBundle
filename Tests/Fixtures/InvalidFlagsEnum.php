@@ -26,12 +26,4 @@ class InvalidFlagsEnum extends BaseFlagEnum
     {
         return array(self::FIRST, self::SECOND, self::INVALID);
     }
-
-    /**
-     * @return int
-     */
-    protected static function getBitmask()
-    {
-        return self::getMaskOfPossibleValues();
-    }
 }
