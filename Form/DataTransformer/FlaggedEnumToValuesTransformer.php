@@ -40,7 +40,7 @@ class FlaggedEnumToValuesTransformer extends BaseEnumTransformer
      *
      * @param array $values An array of raw values
      *
-     * @return FlaggedEnum|null A FlaggedEnum instance of null
+     * @return FlaggedEnum|null A FlaggedEnum instance or null
      *
      * @throws UnexpectedTypeException       When $values is not array
      * @throws TransformationFailedException When any value is not the integer type
