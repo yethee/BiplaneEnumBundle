@@ -3,35 +3,18 @@
 namespace Biplane\EnumBundle\Tests\Form\Type;
 
 use Symfony\Component\Form\FormBuilder;
-use Symfony\Component\Form\FormFactory;
-use Symfony\Component\Form\Extension\Core\CoreExtension;
+use Symfony\Component\Form\Tests\Extension\Core\Type\TypeTestCase;
 use Biplane\EnumBundle\Form\Type\EnumType;
 use Biplane\EnumBundle\Tests\Fixtures\SimpleEnum;
 use Biplane\EnumBundle\Tests\Fixtures\FlagsEnum;
 
-/**
- * @author Denis Vasilev <yethee@biplane.ru>
- */
-class EnumTypeTest extends \PHPUnit_Framework_TestCase
+class EnumTypeTest extends TypeTestCase
 {
     const SIMPLE_ENUM_CLASS = 'Biplane\\EnumBundle\\Tests\\Fixtures\\SimpleEnum';
     const FLAGS_ENUM_CLASS = 'Biplane\\EnumBundle\\Tests\\Fixtures\\FlagsEnum';
 
     /**
-     * @var FormFactory
-     */
-    protected $factory;
-    /**
-     * @var FormBuilder
-     */
-    protected $builder;
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $dispatcher;
-
-    /**
-     * @expectedException Symfony\Component\OptionsResolver\Exception\InvalidOptionsException
+     * @expectedException \Symfony\Component\OptionsResolver\Exception\InvalidOptionsException
      */
     public function testThrowExceptionWhenOptionEnumClassIsMissing()
     {
@@ -39,7 +22,7 @@ class EnumTypeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Symfony\Component\Form\Exception\FormException
+     * @expectedException \Symfony\Component\Form\Exception\FormException
      * @expectedExceptionMessage Enum class "Biplane\EnumBundle\Tests\Form\Type\EnumTypeTest" must be implements of Biplane\EnumBundle\Enumeration\EnumInterface.
      */
     public function testThrowExceptionWhenSpecifiedEnumClassNotImplementEnumInterface()
@@ -50,7 +33,7 @@ class EnumTypeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Symfony\Component\Form\Exception\FormException
+     * @expectedException \Symfony\Component\Form\Exception\FormException
      * @expectedExceptionMessage The "enum_class" (InvalidClass) does not exist.
      */
     public function testThrowExceptionWhenSpecifiedEnumClassDoesNotExists()
@@ -286,17 +269,8 @@ class EnumTypeTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->dispatcher = $this->getMock('Symfony\\Component\\EventDispatcher\\EventDispatcherInterface');
-        $this->factory = new FormFactory(array(new CoreExtension()));
-        $this->builder = new FormBuilder(null, null, $this->dispatcher, $this->factory);
+        parent::setUp();
 
         $this->factory->addType(new EnumType());
-    }
-
-    protected function tearDown()
-    {
-        $this->builder = null;
-        $this->dispatcher = null;
-        $this->factory = null;
     }
 }

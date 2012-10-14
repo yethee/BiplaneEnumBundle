@@ -61,12 +61,16 @@ class EnumType extends AbstractType
         };
 
         $enumClass = function(Options $options) {
-            return is_object($options['data']) ? get_class($options['data']) : null;
+            if ($options->has('data') && is_object($enum = $options->get('data'))) {
+                return get_class($enum);
+            }
+
+            return null;
         };
 
         $resolver->setDefaults(array(
             'enum_class' => $enumClass,
-            'choices'     => $choices,
+            'choices'    => $choices,
         ));
 
         $resolver->setAllowedTypes(array(
