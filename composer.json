@@ -15,12 +15,12 @@
     },
 
     "require-dev": {
-        "jms/serializer-bundle": "dev-master",
+        "jms/serializer-bundle": "0.9.*",
         "symfony/serializer": "2.1.*"
     },
 
     "suggest": {
-        "jms/serializer-bundle": "*",
+        "jms/serializer-bundle": "0.9.*",
         "symfony/serializer": "2.1.*"
     },
 
