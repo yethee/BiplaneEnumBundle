@@ -4,6 +4,7 @@ namespace Biplane\EnumBundle\Tests\Enumeration;
 
 use Biplane\EnumBundle\Tests\Fixtures\FlagsEnum;
 use Biplane\EnumBundle\Tests\Fixtures\FlagsWithZeroEnum;
+use Biplane\EnumBundle\Tests\Fixtures\InvalidFlagsEnum;
 
 /**
  * @author Denis Vasilev <yethee@biplane.ru>
@@ -30,16 +31,12 @@ class FlaggedEnumTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \UnexpectedValueException
+     *
+     * @covers \Biplane\EnumBundle\Enumeration\FlaggedEnum::getBitmask
      */
     public function testThrowExceptionWhenBitmaskIsInvalid()
     {
-        $reflection = new \ReflectionMethod(
-            'Biplane\\EnumBundle\\Tests\\Fixtures\\InvalidFlagsEnum',
-            'getBitmask'
-        );
-        $reflection->setAccessible(true);
-
-        $reflection->invoke(null);
+        InvalidFlagsEnum::create(InvalidFlagsEnum::FIRST);
     }
 
     public function testGetFlagsOfValue()
