@@ -21,7 +21,7 @@ class FlagsEnum extends FlaggedEnum
             self::FIRST  => 'First',
             self::SECOND => 'Second',
             self::THIRD  => 'Third',
-            self::FOURTH => 'Fourth'
+            self::FOURTH => 'Fourth',
         );
     }
 

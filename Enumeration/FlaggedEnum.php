@@ -161,7 +161,11 @@ abstract class FlaggedEnum extends Enum
      */
     public function hasFlag($bitFlag)
     {
-        return $bitFlag === ($bitFlag & $this->value);
+        if ($bitFlag >= 1) {
+            return $bitFlag === ($bitFlag & $this->value);
+        }
+
+        return false;
     }
 
     /**

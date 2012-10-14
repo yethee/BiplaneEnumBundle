@@ -3,6 +3,7 @@
 namespace Biplane\EnumBundle\Tests\Enumeration;
 
 use Biplane\EnumBundle\Tests\Fixtures\FlagsEnum;
+use Biplane\EnumBundle\Tests\Fixtures\FlagsWithZeroEnum;
 
 /**
  * @author Denis Vasilev <yethee@biplane.ru>
@@ -43,9 +44,11 @@ class FlaggedEnumTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFlagsOfValue()
     {
-        $value = FlagsEnum::create(FlagsEnum::FIRST | FlagsEnum::THIRD);
+        $value = FlagsWithZeroEnum::create(
+            FlagsWithZeroEnum::NONE | FlagsWithZeroEnum::FIRST | FlagsWithZeroEnum::THIRD
+        );
 
-        $this->assertEquals(array(FlagsEnum::FIRST, FlagsEnum::THIRD), $value->getFlags());
+        $this->assertEquals(array(FlagsWithZeroEnum::FIRST, FlagsWithZeroEnum::THIRD), $value->getFlags());
     }
 
     public function testSingleFlagCanBeReadabled()
