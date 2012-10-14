@@ -1,13 +1,13 @@
 <?php
 
-if (file_exists($file = __DIR__ . '/../vendor/.composer/autoload.php')) {
+if (file_exists($file = __DIR__ . '/../vendor/autoload.php')) {
     require_once $file;
 } else {
     die(<<<'EOT'
 
 You must set up the project dependencies, run the following commands:
 wget http://getcomposer.org/composer.phar
-php composer.phar install
+php composer.phar install --dev
 
 
 EOT
