@@ -45,8 +45,9 @@ abstract class FlaggedEnum extends Enum
     /**
      * Gets the human representation for a given value.
      *
-     * @param mixed $value The value of a particular enumerated constant
-     * @param string $separator
+     * @param mixed  $value     The value of a particular enumerated constant
+     * @param string $separator The separator for names of flags
+     *
      * @return string The human representation for a given value
      *
      * @throws InvalidEnumArgumentException When $value is not acceptable for this enumeration type
@@ -145,7 +146,10 @@ abstract class FlaggedEnum extends Enum
     }
 
     /**
-     * @param string $separator
+     * Gets the human representation of the value.
+     *
+     * @param string $separator The separator for names of flags
+     *
      * @return string
      */
     public function getReadable($separator = '; ')
