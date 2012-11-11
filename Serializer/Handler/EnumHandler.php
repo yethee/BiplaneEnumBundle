@@ -2,10 +2,8 @@
 
 namespace Biplane\EnumBundle\Serializer\Handler;
 
-use JMS\SerializerBundle\Serializer\Handler\SerializationHandlerInterface;
-use JMS\SerializerBundle\Serializer\GenericSerializationVisitor;
 use JMS\SerializerBundle\Serializer\XmlSerializationVisitor;
-use JMS\SerializerBundle\Serializer\VisitorInterface;
+use JMS\SerializerBundle\Serializer\JsonSerializationVisitor;
 use Biplane\EnumBundle\Enumeration\EnumInterface;
 
 /**
@@ -13,38 +11,37 @@ use Biplane\EnumBundle\Enumeration\EnumInterface;
  *
  * @author Denis Vasilev <yethee@biplane.ru>
  */
-class EnumHandler implements SerializationHandlerInterface
+class EnumHandler
 {
     /**
-     * @param VisitorInterface $visitor
-     * @param mixed $data
-     * @param string $type
-     * @param bool $handled
+     * Serialize the Enum object to json.
+     *
+     * @param JsonSerializationVisitor $visitor The visitor
+     * @param EnumInterface            $data    A EnumInterface instance
+     * @param array                    $type    The type parameters
+     *
      * @return mixed
      */
-    public function serialize(VisitorInterface $visitor, $data, $type, &$handled)
+    public function serializeEnumToJson(JsonSerializationVisitor $visitor, EnumInterface $data, array $type)
     {
-        if ($data instanceof EnumInterface) {
-            $handled = true;
+        return $data->getValue();
+    }
 
-            if ($visitor instanceof XmlSerializationVisitor) {
-                if ($visitor->document === null) {
-                    $visitor->document = $visitor->createDocument();
-                    $visitor->getCurrentNode()->appendChild($visitor->document->createCDATASection($data->getValue()));
-                }
-                else {
-                    return $visitor->document->createCDATASection($data->getValue());
-                }
-            }
-            else if ($visitor instanceof GenericSerializationVisitor && $visitor->getRoot() === null) {
-                $visitor->setRoot($data->getValue());
-
-                return;
-            }
-
-            return $data->getValue();
+    /**
+     * Serialize the Enum object to xml.
+     *
+     * @param XmlSerializationVisitor $visitor The visitor
+     * @param EnumInterface           $data    A EnumInterface instance
+     * @param array                   $type    The type parameters
+     *
+     * @return \DOMCdataSection
+     */
+    public function serializeEnumToXml(XmlSerializationVisitor $visitor, EnumInterface $data, array $type)
+    {
+        if ($visitor->document === null) {
+            $visitor->document = $visitor->createDocument(null, null, true);
         }
 
-        return;
+        return $visitor->document->createCDATASection($data->getValue());
     }
 }
