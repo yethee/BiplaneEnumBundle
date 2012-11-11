@@ -24,7 +24,13 @@ class EnumHandler
      */
     public function serializeEnumToJson(JsonSerializationVisitor $visitor, EnumInterface $data, array $type)
     {
-        return $data->getValue();
+        $value = $data->getValue();
+
+        if ($visitor->getRoot() === null) {
+            $visitor->setRoot($value);
+        }
+
+        return $value;
     }
 
     /**
@@ -40,6 +46,9 @@ class EnumHandler
     {
         if ($visitor->document === null) {
             $visitor->document = $visitor->createDocument(null, null, true);
+            $visitor->getCurrentNode()->appendChild($node = $visitor->document->createCDATASection($data->getValue()));
+
+            return $node;
         }
 
         return $visitor->document->createCDATASection($data->getValue());
