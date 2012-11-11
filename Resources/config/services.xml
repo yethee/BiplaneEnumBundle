@@ -10,7 +10,7 @@
 
         <service id="biplane_enum.serializer.enum_normalizer" class="Biplane\EnumBundle\Serializer\Normalizer\EnumNormalizer" />
 
-        <service id="biplane_enum.jms_serializer.enum_handler" class="Biplane\EnumBundle\Serializer\Handler\EnumHandler" public="false" />
+        <service id="biplane_enum.jms_serializer.enum_handler" class="Biplane\EnumBundle\Serializer\Handler\EnumHandler" />
     </services>
 
 </container>
