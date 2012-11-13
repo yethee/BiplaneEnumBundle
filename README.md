@@ -257,12 +257,18 @@ class User
 JMSSerializerBundle support
 ---------------------------
 
-By default, registers a custom handler for the enumeration when JMSSerializerBundle is enabled.
-You can disable this handler:
+This bundle provides a custom handler for the serializer to allow serialize the Enum object
+as scalar value to json or xml format. The custom handler uses only for those typed enumerations
+that are specified in the configuration.
+
+You can to register your typed enumerations through config:
 
 ```yaml
 # app/config/config.yml
-jms_serializer:
-    handlers:
-        biplane_enum: false
+biplane_enum:
+    serializer:
+        types:
+            - Acme\DemoBundle\Enum\MyEnum
+            - Acme\UserBundle\Enum\UserRoles
+            # etc
 ```
