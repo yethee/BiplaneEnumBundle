@@ -21,7 +21,7 @@ Installation
 
 **Using the vendors script**
 
-Add the following lines in your deps file:
+Add the following lines in your `deps` file:
 
     [BiplaneEnumBundle]
         git=http://github.com/yethee/BiplaneEnumBundle.git
@@ -37,6 +37,18 @@ $ php bin/vendors install
 
 ```bash
 $ git submodule add http://github.com/yethee/BiplaneEnumBundle.git vendor/bundles/Biplane/EnumBundle
+$ git submodule update --init
+```
+
+**Using composer**
+
+Add BiplaneEnumBundle in your composer.json:
+
+```js
+  "require": {
+    // ...
+    "yethee/enum-bundle": "*"
+  }
 ```
 
 ### Add the Biplane namespace to your autoloader
@@ -87,12 +99,12 @@ class UserRoles extends Enum
     const MEMBER = 'ROLE_MEMBER';
     const ADMIN  = 'ROLE_ADMIN';
 
-    static public function getPossibleValues()
+    public static function getPossibleValues()
     {
         return array(static::MEMBER, static::ADMIN);
     }
 
-    static public function getReadables()
+    public static function getReadables()
     {
         return array(static::MEMBER => 'Member', static::ADMIN => 'Admin');
     }
@@ -141,18 +153,18 @@ class Permissions extends FlaggedEnum
     const REMOVE = 4;
     const ALL    = 7;
 
-    static public function getPossibleValues()
+    public static function getPossibleValues()
     {
         return array(static::READ, static::WRITE, static::REMOVE);
     }
 
-    static public function getReadables()
+    public static function getReadables()
     {
         return array(
-            static::READ => 'Read',
-            static::WRITE => 'Write',
+            static::READ   => 'Read',
+            static::WRITE  => 'Write',
             static::REMOVE => 'Remove',
-            static::ALL => 'All permissions',
+            static::ALL    => 'All permissions',
         );
     }
 }
@@ -202,6 +214,8 @@ Or you can create a custom type of DBAL for move the logic of casting type from 
 ```php
 <?php
 
+namespace Acme\DemoBundle\Doctrine\Type;
+
 use Doctrine\DBAL\Types\StringType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 
@@ -235,7 +249,7 @@ After that you should register your type, this can be done through config:
 doctrine:
     dbal:
         types:
-            role_enum: RoleType
+            role_enum: Acme\DemoBundle\Doctrine\Type\RoleType
 ```
 
 Set your type in the mapping of the entity:
