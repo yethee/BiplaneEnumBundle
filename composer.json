@@ -24,6 +24,8 @@
         "symfony/serializer": "2.1.*"
     },
 
+    "minimum-stability": "dev",
+
     "autoload": {
         "psr-0": { "Biplane\\EnumBundle": "" }
     },
