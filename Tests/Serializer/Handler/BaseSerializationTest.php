@@ -4,15 +4,16 @@ namespace Biplane\EnumBundle\Tests\Serializer\Handler;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Metadata\MetadataFactory;
-use JMS\SerializerBundle\Metadata\Driver\AnnotationDriver;
-use JMS\SerializerBundle\Serializer\Construction\UnserializeObjectConstructor;
-use JMS\SerializerBundle\Serializer\Handler\HandlerRegistry;
-use JMS\SerializerBundle\Serializer\Naming\CamelCaseNamingStrategy;
-use JMS\SerializerBundle\Serializer\Naming\SerializedNameAnnotationStrategy;
-use JMS\SerializerBundle\Serializer\JsonSerializationVisitor;
-use JMS\SerializerBundle\Serializer\XmlSerializationVisitor;
-use JMS\SerializerBundle\Serializer\GraphNavigator;
-use JMS\SerializerBundle\Serializer\Serializer;
+use JMS\Serializer\Metadata\Driver\AnnotationDriver;
+use JMS\Serializer\Construction\UnserializeObjectConstructor;
+use JMS\Serializer\Handler\HandlerRegistry;
+use JMS\Serializer\Naming\CamelCaseNamingStrategy;
+use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
+use JMS\Serializer\JsonSerializationVisitor;
+use JMS\Serializer\XmlSerializationVisitor;
+use JMS\Serializer\GraphNavigator;
+use JMS\Serializer\Serializer;
+use PhpCollection\Map;
 use Biplane\EnumBundle\Serializer\Handler\EnumHandler;
 use Biplane\EnumBundle\Tests\Fixtures\SimpleEnum;
 
@@ -54,8 +55,8 @@ abstract class BaseSerializationTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        if (!class_exists('JMS\SerializerBundle\Serializer\Serializer')) {
-            $this->markTestSkipped('JMSSerializerBundle is not available.');
+        if (!class_exists('JMS\Serializer\Serializer')) {
+            $this->markTestSkipped('JMSSerializer library is not available.');
         }
 
         $this->handlerRegistry = new HandlerRegistry();
@@ -92,18 +93,17 @@ abstract class BaseSerializationTest extends \PHPUnit_Framework_TestCase
         $factory = new MetadataFactory(new AnnotationDriver(new AnnotationReader()));
         $namingStrategy = new SerializedNameAnnotationStrategy(new CamelCaseNamingStrategy());
 
-        $serializationVisitors = array(
+        $serializationVisitors = new Map(array(
             'json' => new JsonSerializationVisitor($namingStrategy),
             'xml'  => new XmlSerializationVisitor($namingStrategy),
-        );
+        ));
 
         return new Serializer(
             $factory,
             $this->handlerRegistry,
             new UnserializeObjectConstructor(),
-            null,
-            null,
-            $serializationVisitors
+            $serializationVisitors,
+            new Map()
         );
     }
 }

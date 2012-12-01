@@ -6,7 +6,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
-use JMS\SerializerBundle\Serializer\GraphNavigator;
+use JMS\Serializer\GraphNavigator;
 
 /**
  * BiplaneEnumExtension

@@ -3,7 +3,7 @@
 namespace Biplane\EnumBundle\Tests\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use JMS\SerializerBundle\Serializer\GraphNavigator;
+use JMS\Serializer\GraphNavigator;
 use Biplane\EnumBundle\DependencyInjection\BiplaneEnumExtension;
 
 /**
