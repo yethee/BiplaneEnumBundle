@@ -11,17 +11,21 @@
     "require": {
         "php": ">=5.3.3",
         "symfony/framework-bundle": ">=2.1,<2.3-dev",
-        "symfony/form": "2.1.*"
+        "symfony/form": ">=2.1,<2.3-dev"
     },
 
     "require-dev": {
         "jms/serializer-bundle": "1.0.x-dev",
-        "symfony/serializer": "2.1.*"
+        "symfony/serializer": ">=2.1,<2.3-dev"
     },
 
     "suggest": {
         "jms/serializer-bundle": "1.0.x-dev",
-        "symfony/serializer": "2.1.*"
+        "symfony/serializer": ">=2.1,<2.3-dev"
+    },
+
+    "conflict": {
+        "jms/serializer-bundle": "<1.0-dev"
     },
 
     "minimum-stability": "dev",
