@@ -19,10 +19,11 @@ class EnumNormalizer extends SerializerAwareNormalizer implements NormalizerInte
      *
      * @param object $object object to normalize
      * @param string $format format the normalization result will be encoded as
+     * @param array $context Context options for the normalizer
      *
-     * @return mixed
+     * @return array|scalar
      */
-    public function normalize($object, $format = null)
+    public function normalize($object, $format = null, array $context = array())
     {
         return $object->getValue();
     }
@@ -33,10 +34,11 @@ class EnumNormalizer extends SerializerAwareNormalizer implements NormalizerInte
      * @param mixed  $data   data to restore
      * @param string $class  the expected class to instantiate
      * @param string $format format the given data was extracted from
+     * @param array  $context options available to the denormalizer
      *
-     * @return EnumInterface
+     * @return object
      */
-    public function denormalize($data, $class, $format = null)
+    public function denormalize($data, $class, $format = null, array $context = array())
     {
         return call_user_func(array($class, 'create'), $data);
     }
