@@ -4,7 +4,7 @@ namespace Biplane\EnumBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Exception\FormException;
+use Symfony\Component\Form\Exception\InvalidConfigurationException;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Biplane\EnumBundle\Form\DataTransformer\EnumToValueTransformer;
@@ -24,7 +24,7 @@ class EnumType extends AbstractType
      * @param FormBuilderInterface $builder The form builder
      * @param array                $options The options
      *
-     * @throws FormException
+     * @throws InvalidConfigurationException
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -39,9 +39,11 @@ class EnumType extends AbstractType
                 $builder->addModelTransformer(new EnumToValueTransformer($options['enum_class']));
             }
         } catch (\InvalidArgumentException $ex) {
-            throw new FormException($ex->getMessage());
+            throw new InvalidConfigurationException($ex->getMessage());
         } catch (\ReflectionException $ex) {
-            throw new FormException(sprintf('The "enum_class" (%s) does not exist.', $options['enum_class']));
+            throw new InvalidConfigurationException(sprintf(
+                'The "enum_class" (%s) does not exist.', $options['enum_class']
+            ));
         }
     }
 

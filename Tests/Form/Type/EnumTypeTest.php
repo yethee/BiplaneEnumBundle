@@ -23,7 +23,7 @@ class EnumTypeTest extends TypeTestCase
     }
 
     /**
-     * @expectedException \Symfony\Component\Form\Exception\FormException
+     * @expectedException \Symfony\Component\Form\Exception\InvalidConfigurationException
      * @expectedExceptionMessage Enum class "Biplane\EnumBundle\Tests\Form\Type\EnumTypeTest" must be implements of Biplane\EnumBundle\Enumeration\EnumInterface.
      */
     public function testThrowExceptionWhenSpecifiedEnumClassNotImplementEnumInterface()
@@ -34,7 +34,7 @@ class EnumTypeTest extends TypeTestCase
     }
 
     /**
-     * @expectedException \Symfony\Component\Form\Exception\FormException
+     * @expectedException \Symfony\Component\Form\Exception\InvalidConfigurationException
      * @expectedExceptionMessage The "enum_class" (InvalidClass) does not exist.
      */
     public function testThrowExceptionWhenSpecifiedEnumClassDoesNotExists()
