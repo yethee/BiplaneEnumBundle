@@ -6,7 +6,6 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
-use JMS\Serializer\GraphNavigator;
 
 /**
  * BiplaneEnumExtension
@@ -32,8 +31,8 @@ class BiplaneEnumExtension extends ConfigurableExtension
 
             foreach ($config['serializer']['types'] as $type) {
                 foreach ($methods as $format => $method) {
-                    $definition->addTag('jms_serializer.custom_handler', array(
-                        'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
+                    $definition->addTag('jms_serializer.handler', array(
+                        'direction' => 'serialization',
                         'type'      => $type,
                         'format'    => $format,
                         'method'    => $method,
