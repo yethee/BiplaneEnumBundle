@@ -44,7 +44,7 @@ class BiplaneEnumExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->container->hasDefinition('biplane_enum.jms_serializer.enum_handler'));
 
         $tagAttributes = $this->container->getDefinition('biplane_enum.jms_serializer.enum_handler')
-            ->getTag('jms_serializer.custom_handler');
+            ->getTag('jms_serializer.handler');
 
         $this->assertCount(4, $tagAttributes);
         $this->assertTagAttributes($tagAttributes[0], 'Biplane\EnumBundle\Tests\Fixtures\SimpleEnum', 'json');
@@ -67,7 +67,7 @@ class BiplaneEnumExtensionTest extends \PHPUnit_Framework_TestCase
     private function assertTagAttributes(array $attributes, $type, $format)
     {
         $expected = array(
-            'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
+            'direction' => 'serialization',
             'type'      => $type,
             'format'    => $format,
             'method'    => 'serializeEnumTo' . ucfirst($format),
