@@ -15,17 +15,13 @@
     },
 
     "require-dev": {
-        "jms/serializer-bundle": "1.0.*",
+        "jms/serializer-bundle": "0.12.*",
         "symfony/serializer": ">=2.1,<2.3-dev"
     },
 
     "suggest": {
-        "jms/serializer-bundle": "1.0.*",
+        "jms/serializer-bundle": "0.12.*",
         "symfony/serializer": ">=2.1,<2.3-dev"
-    },
-
-    "conflict": {
-        "jms/serializer-bundle": "<1.0-dev"
     },
 
     "minimum-stability": "dev",
