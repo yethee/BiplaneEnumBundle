@@ -2,14 +2,13 @@
 
 namespace Biplane\EnumBundle\Tests\Form\Type;
 
-use Symfony\Component\Form\FormBuilder;
-use Symfony\Component\Form\Tests\Extension\Core\Type\TypeTestCase;
+use Symfony\Component\Form\Tests\FormIntegrationTestCase;
 use Biplane\EnumBundle\Enumeration\FlaggedEnum;
-use Biplane\EnumBundle\Form\Type\EnumType;
+use Biplane\EnumBundle\Form\EnumExtension;
 use Biplane\EnumBundle\Tests\Fixtures\SimpleEnum;
 use Biplane\EnumBundle\Tests\Fixtures\FlagsEnum;
 
-class EnumTypeTest extends TypeTestCase
+class EnumTypeTest extends FormIntegrationTestCase
 {
     const SIMPLE_ENUM_CLASS = 'Biplane\\EnumBundle\\Tests\\Fixtures\\SimpleEnum';
     const FLAGS_ENUM_CLASS = 'Biplane\\EnumBundle\\Tests\\Fixtures\\FlagsEnum';
@@ -95,7 +94,7 @@ class EnumTypeTest extends TypeTestCase
 
         $this->assertTrue($field->isSynchronized());
         $this->assertNull($field->getData());
-        $this->assertSame('', $field->getClientData());
+        $this->assertSame('', $field->getViewData());
     }
 
     public function testBindSingle()
@@ -110,7 +109,7 @@ class EnumTypeTest extends TypeTestCase
 
         $this->assertTrue($field->isSynchronized());
         $this->assertEquals($selectedEnum, $field->getData());
-        $this->assertSame('1', $field->getClientData());
+        $this->assertSame('1', $field->getViewData());
     }
 
     public function testBindMultipleNull()
@@ -123,7 +122,7 @@ class EnumTypeTest extends TypeTestCase
         $field->bind(null);
 
         $this->assertEquals(array(), $field->getData());
-        $this->assertEquals(array(), $field->getClientData());
+        $this->assertEquals(array(), $field->getViewData());
     }
 
     public function testBindMultipleNull_FlagEnum()
@@ -138,7 +137,7 @@ class EnumTypeTest extends TypeTestCase
         $this->assertInstanceOf(self::FLAGS_ENUM_CLASS, $field->getData());
         $this->assertEquals(FlaggedEnum::NONE, $field->getData()->getValue());
         $this->assertEquals(array(), $field->getNormData());
-        $this->assertEquals(array(), $field->getClientData());
+        $this->assertEquals(array(), $field->getViewData());
     }
 
     public function testBindMultipleExpanded()
@@ -158,8 +157,8 @@ class EnumTypeTest extends TypeTestCase
         $this->assertEquals(array(1), $field->getNormData());
         $this->assertTrue($field['1']->getData());
         $this->assertFalse($field['2']->getData());
-        $this->assertSame('1', $field['1']->getClientData());
-        $this->assertNull($field['2']->getClientData());
+        $this->assertSame('1', $field['1']->getViewData());
+        $this->assertNull($field['2']->getViewData());
     }
 
     public function testBindMultipleExpanded_FlagEnum()
@@ -179,10 +178,10 @@ class EnumTypeTest extends TypeTestCase
         $this->assertTrue($field['1']->getData());
         $this->assertFalse($field['2']->getData());
         $this->assertFalse($field['3']->getData());
-        $this->assertSame('1', $field['0']->getClientData());
-        $this->assertSame('2', $field['1']->getClientData());
-        $this->assertNull($field['2']->getClientData());
-        $this->assertNull($field['3']->getClientData());
+        $this->assertSame('1', $field['0']->getViewData());
+        $this->assertSame('2', $field['1']->getViewData());
+        $this->assertNull($field['2']->getViewData());
+        $this->assertNull($field['3']->getViewData());
     }
 
     public function testSetDataSingleNull()
@@ -194,7 +193,7 @@ class EnumTypeTest extends TypeTestCase
         $field->setData(null);
 
         $this->assertNull($field->getData());
-        $this->assertEquals('', $field->getClientData());
+        $this->assertEquals('', $field->getViewData());
     }
 
     public function testSetDataMultipleExpandedNull()
@@ -208,7 +207,7 @@ class EnumTypeTest extends TypeTestCase
         $field->setData(null);
 
         $this->assertNull($field->getData());
-        $this->assertEquals(array('0' => false, '1' => false, '2' => false), $field->getClientData());
+        $this->assertEquals(array('0' => false, '1' => false, '2' => false), $field->getViewData());
     }
 
     public function testSetDataMultipleNonExpandedNull()
@@ -222,7 +221,7 @@ class EnumTypeTest extends TypeTestCase
         $field->setData(null);
 
         $this->assertNull($field->getData());
-        $this->assertEquals(array(), $field->getClientData());
+        $this->assertEquals(array(), $field->getViewData());
     }
 
     public function testSetDataSingle()
@@ -235,7 +234,7 @@ class EnumTypeTest extends TypeTestCase
         $field->setData($data);
 
         $this->assertEquals($data, $field->getData());
-        $this->assertEquals('1', $field->getClientData());
+        $this->assertEquals('1', $field->getViewData());
     }
 
     public function testSetDataMultipleExpanded()
@@ -250,7 +249,7 @@ class EnumTypeTest extends TypeTestCase
         $field->setData($data);
 
         $this->assertEquals($data, $field->getData());
-        $this->assertEquals(array('0' => false, '1' => true, '2' => false), $field->getClientData());
+        $this->assertEquals(array('0' => false, '1' => true, '2' => false), $field->getViewData());
     }
 
     public function testSetDataMultipleExpanded_FlagEnum()
@@ -266,13 +265,13 @@ class EnumTypeTest extends TypeTestCase
 
         $this->assertEquals($data, $field->getData());
         $this->assertEquals(array(1, 4), $field->getNormData());
-        $this->assertEquals(array('0' => true, '1' => false, '2' => true, '3' => false), $field->getClientData());
+        $this->assertEquals(array('0' => true, '1' => false, '2' => true, '3' => false), $field->getViewData());
     }
 
-    protected function setUp()
+    protected function getExtensions()
     {
-        parent::setUp();
-
-        $this->factory->addType(new EnumType());
+        return array_merge(parent::getExtensions(), array(
+            new EnumExtension(),
+        ));
     }
 }
