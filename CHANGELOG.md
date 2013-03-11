@@ -4,7 +4,7 @@ Changelog
 1.2.x
 -----
 
- * Support JMSSerializerBundle of version 1.0;
+ * Support JMSSerializerBundle of version 0.12;
  * [BC break] For using the custom handler for the serializer you should manually register
    your types of enumerations in the config.
 
