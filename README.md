@@ -242,6 +242,10 @@ class RoleType extends StringType
 }
 ```
 
+> **NOTE:** You should manually convert the raw value to the valid type for your enumeration,
+before creating a new instance of the enumeration in `convertToPHPValue` method.
+Because into this method always passed the value as string (or null).
+
 After that you should register your type, this can be done through config:
 
 ```yaml
