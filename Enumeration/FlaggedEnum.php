@@ -200,7 +200,7 @@ abstract class FlaggedEnum extends Enum
      *
      * @param int $flags The bit flag or bit flags
      *
-     * @return EnumInterface A new instance of the enumeration
+     * @return FlaggedEnum A new instance of the enumeration
      *
      * @throws InvalidEnumArgumentException When $flags is not acceptable for this enumeration type
      */
@@ -220,7 +220,7 @@ abstract class FlaggedEnum extends Enum
      *
      * @param int $flags The bit flag or bit flags
      *
-     * @return EnumInterface A new instance of the enumeration
+     * @return FlaggedEnum A new instance of the enumeration
      *
      * @throws InvalidEnumArgumentException When $flags is not acceptable for this enumeration type
      */
