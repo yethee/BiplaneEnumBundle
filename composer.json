@@ -20,8 +20,8 @@
     },
 
     "suggest": {
-        "jms/serializer-bundle": "0.12.*",
-        "symfony/serializer": "~2.1"
+        "jms/serializer-bundle": "provides the handler for the JMSSerializer",
+        "symfony/serializer": "provides the normalizer for the Symfony's Serializer"
     },
 
     "conflict": {
