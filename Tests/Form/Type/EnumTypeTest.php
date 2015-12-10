@@ -2,11 +2,11 @@
 
 namespace Biplane\EnumBundle\Tests\Form\Type;
 
-use Symfony\Component\Form\Tests\FormIntegrationTestCase;
 use Biplane\EnumBundle\Enumeration\FlaggedEnum;
 use Biplane\EnumBundle\Form\EnumExtension;
 use Biplane\EnumBundle\Tests\Fixtures\SimpleEnum;
 use Biplane\EnumBundle\Tests\Fixtures\FlagsEnum;
+use Symfony\Component\Form\Test\FormIntegrationTestCase;
 
 class EnumTypeTest extends FormIntegrationTestCase
 {
