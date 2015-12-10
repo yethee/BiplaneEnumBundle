@@ -7,6 +7,7 @@ use Biplane\EnumBundle\Form\DataTransformer\EnumToValueTransformer;
 use Biplane\EnumBundle\Form\DataTransformer\FlaggedEnumToValuesTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -29,6 +30,7 @@ class EnumType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         try {
+            $builder->resetModelTransformers();
             if ($options['multiple']) {
                 if (is_subclass_of($options['enum_class'], 'Biplane\EnumBundle\Enumeration\FlaggedEnum')) {
                     $builder->addModelTransformer(new FlaggedEnumToValuesTransformer($options['enum_class']));
@@ -52,15 +54,15 @@ class EnumType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $choices = function(Options $options) {
+        $choices = function (Options $options) {
             if ($options['enum_class'] !== null && method_exists($options['enum_class'], 'getReadables')) {
-                return $options['enum_class']::getReadables();
+                return array_flip($options['enum_class']::getReadables());
             }
 
             return array();
         };
 
-        $enumClass = function(Options $options) {
+        $enumClass = function (Options $options) {
             if ($options->offsetExists('data') && is_object($enum = $options->offsetGet('data'))) {
                 return get_class($enum);
             }
@@ -74,6 +76,7 @@ class EnumType extends AbstractType
                 array(
                     'enum_class' => $enumClass,
                     'choices' => $choices,
+                    'choices_as_values' => true,
                 )
             )
             ->setAllowedTypes('enum_class', array('string'))
@@ -88,7 +91,7 @@ class EnumType extends AbstractType
      */
     public function getParent()
     {
-        return 'choice';
+        return ChoiceType::class;
     }
 
     /**
