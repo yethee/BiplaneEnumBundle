@@ -16,7 +16,8 @@
 
     "require-dev": {
         "jms/serializer-bundle": "0.12.*",
-        "symfony/serializer": "~2.1"
+        "symfony/serializer": "~2.1",
+        "phpunit/phpunit": "~4.8"
     },
 
     "suggest": {
