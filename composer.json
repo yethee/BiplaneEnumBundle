@@ -10,13 +10,13 @@
 
     "require": {
         "php": ">=5.5.9",
-        "symfony/framework-bundle": "~2.7",
-        "symfony/form": "~2.7"
+        "symfony/framework-bundle": "~2.7|~3.0",
+        "symfony/form": "~2.7|~3.0"
     },
 
     "require-dev": {
         "jms/serializer-bundle": "1.1.*",
-        "symfony/serializer": "~2.7",
+        "symfony/serializer": "~2.7|~3.0",
         "phpunit/phpunit": "~4.8"
     },
 
