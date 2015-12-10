@@ -69,6 +69,7 @@ class EnumType extends AbstractType
         };
 
         $resolver
+            ->setDefined(array('enum_class', 'choices'))
             ->setDefaults(
                 array(
                     'enum_class' => $enumClass,
