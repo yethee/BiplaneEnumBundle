@@ -1,7 +1,12 @@
 Changelog
 =========
 
-1.2.x
+2.0.x
+-----
+
+ * Added support for Symfony 3.0
+
+1.2.0
 -----
 
  * Support JMSSerializerBundle of version 0.12;
