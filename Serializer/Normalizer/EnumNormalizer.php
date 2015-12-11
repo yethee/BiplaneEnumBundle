@@ -2,10 +2,10 @@
 
 namespace Biplane\EnumBundle\Serializer\Normalizer;
 
-use Symfony\Component\Serializer\Normalizer\SerializerAwareNormalizer;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Biplane\EnumBundle\Enumeration\EnumInterface;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\SerializerAwareNormalizer;
 
 /**
  * EnumNormalizer
@@ -21,7 +21,7 @@ class EnumNormalizer extends SerializerAwareNormalizer implements NormalizerInte
      * @param string $format format the normalization result will be encoded as
      * @param array $context Context options for the normalizer
      *
-     * @return array|scalar
+     * @return array|string|bool|int|float|null
      */
     public function normalize($object, $format = null, array $context = array())
     {

@@ -2,9 +2,9 @@
 
 namespace Biplane\EnumBundle\Form\DataTransformer;
 
+use Biplane\EnumBundle\Enumeration\FlaggedEnum;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
-use Biplane\EnumBundle\Enumeration\FlaggedEnum;
 
 /**
  * Transforms between a bit flags and the flagged enumeration instance.
@@ -60,7 +60,9 @@ class FlaggedEnumToValuesTransformer extends BaseEnumTransformer
         foreach ($values as $value) {
             if (!is_integer($value)) {
                 throw new TransformationFailedException(sprintf(
-                    'The value "%s" (type of %s) must be the integer type.', $value, gettype($value)
+                    'The value "%s" (type of %s) must be the integer type.',
+                    $value,
+                    gettype($value)
                 ));
             }
 

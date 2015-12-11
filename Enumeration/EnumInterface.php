@@ -21,21 +21,21 @@ interface EnumInterface
      *
      * @throws InvalidEnumArgumentException When $value is not acceptable for this enumeration type
      */
-    static function create($value);
+    public static function create($value);
 
     /**
      * Gets an array of the possible values.
      *
      * @return array
      */
-    static function getPossibleValues();
+    public static function getPossibleValues();
 
     /**
      * Gets an array of the human representations indexed by possible values.
      *
      * @return array
      */
-    static function getReadables();
+    public static function getReadables();
 
     /**
      * Tells is this value is acceptable.
@@ -44,7 +44,7 @@ interface EnumInterface
      *
      * @return boolean True if $value is acceptable for this enumeration type; otherwise false
      */
-    static function isAcceptableValue($value);
+    public static function isAcceptableValue($value);
 
     /**
      * Gets the human representation for a given value.
@@ -55,21 +55,21 @@ interface EnumInterface
      *
      * @throws InvalidEnumArgumentException When $value is not acceptable for this enumeration type
      */
-    static function getReadableFor($value);
+    public static function getReadableFor($value);
 
     /**
      * Gets the raw value.
      *
      * @return mixed
      */
-    function getValue();
+    public function getValue();
 
     /**
      * Gets the human representation of the value.
      *
      * @return string
      */
-    function getReadable();
+    public function getReadable();
 
     /**
      * Determines whether enums are equals.
@@ -78,5 +78,5 @@ interface EnumInterface
      *
      * @return bool True if $enum is an enum with the same type and value as this instance; otherwise, false
      */
-    function equals(EnumInterface $enum);
+    public function equals(EnumInterface $enum);
 }

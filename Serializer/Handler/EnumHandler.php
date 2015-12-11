@@ -2,9 +2,9 @@
 
 namespace Biplane\EnumBundle\Serializer\Handler;
 
-use JMS\Serializer\XmlSerializationVisitor;
-use JMS\Serializer\JsonSerializationVisitor;
 use Biplane\EnumBundle\Enumeration\EnumInterface;
+use JMS\Serializer\JsonSerializationVisitor;
+use JMS\Serializer\XmlSerializationVisitor;
 
 /**
  * EnumHandler

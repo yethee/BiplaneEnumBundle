@@ -38,7 +38,7 @@ abstract class FlaggedEnum extends Enum
         if ($value === self::NONE) {
             return true;
         }
-        
+
         return $value === ($value & static::getBitmask());
     }
 
@@ -91,7 +91,7 @@ abstract class FlaggedEnum extends Enum
 
     /**
      * Gets an integer value of the possible flags for enumeration.
-     * 
+     *
      * @return int
      *
      * @throws \UnexpectedValueException
@@ -121,7 +121,7 @@ abstract class FlaggedEnum extends Enum
 
     /**
      * Gets the bitmask of possible values.
-     * 
+     *
      * @return int
      *
      * @throws \UnexpectedValueException
@@ -135,7 +135,8 @@ abstract class FlaggedEnum extends Enum
         foreach (static::getPossibleValues() as $flag) {
             if ($flag > 1 && ($flag % 2) !== 0) {
                 throw new \UnexpectedValueException(sprintf(
-                    'Possible value (%d) of the enumeration is not the bit flag.', $flag
+                    'Possible value (%d) of the enumeration is not the bit flag.',
+                    $flag
                 ));
             }
 
@@ -159,7 +160,7 @@ abstract class FlaggedEnum extends Enum
 
     /**
      * Gets an array of bit flags of the value.
-     * 
+     *
      * @return array
      */
     public function getFlags()

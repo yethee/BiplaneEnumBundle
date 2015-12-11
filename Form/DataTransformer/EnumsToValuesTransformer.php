@@ -2,10 +2,10 @@
 
 namespace Biplane\EnumBundle\Form\DataTransformer;
 
-use Symfony\Component\Form\Exception\TransformationFailedException;
-use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Biplane\EnumBundle\Enumeration\EnumInterface;
 use Biplane\EnumBundle\Exception\InvalidEnumArgumentException;
+use Symfony\Component\Form\Exception\TransformationFailedException;
+use Symfony\Component\Form\Exception\UnexpectedTypeException;
 
 /**
  * Transforms between raw values and enumeration instances.
@@ -34,7 +34,8 @@ class EnumsToValuesTransformer extends BaseEnumTransformer
             return array_map(array($this, 'createEnum'), $values);
         } catch (InvalidEnumArgumentException $ex) {
             throw new TransformationFailedException(sprintf(
-                'One or more values is not acceptable for enumeration of %s type.', $this->enumClass
+                'One or more values is not acceptable for enumeration of %s type.',
+                $this->enumClass
             ));
         }
     }

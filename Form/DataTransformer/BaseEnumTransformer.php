@@ -2,8 +2,8 @@
 
 namespace Biplane\EnumBundle\Form\DataTransformer;
 
-use Symfony\Component\Form\DataTransformerInterface;
 use Biplane\EnumBundle\Enumeration\EnumInterface;
+use Symfony\Component\Form\DataTransformerInterface;
 
 /**
  * BaseEnumTransformer
@@ -30,7 +30,8 @@ abstract class BaseEnumTransformer implements DataTransformerInterface
 
         if (!$reflection->implementsInterface('Biplane\EnumBundle\Enumeration\EnumInterface')) {
             throw new \InvalidArgumentException(sprintf(
-                'Enum class "%s" must be implements of Biplane\EnumBundle\Enumeration\EnumInterface.', $enumClass
+                'Enum class "%s" must be implements of Biplane\EnumBundle\Enumeration\EnumInterface.',
+                $enumClass
             ));
         }
 
