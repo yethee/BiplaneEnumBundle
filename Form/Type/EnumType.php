@@ -7,7 +7,6 @@ use Biplane\EnumBundle\Form\DataTransformer\EnumToValueTransformer;
 use Biplane\EnumBundle\Form\DataTransformer\FlaggedEnumToValuesTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -30,7 +29,6 @@ class EnumType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         try {
-            $builder->resetModelTransformers();
             if ($options['multiple']) {
                 if (is_subclass_of($options['enum_class'], 'Biplane\EnumBundle\Enumeration\FlaggedEnum')) {
                     $builder->addModelTransformer(new FlaggedEnumToValuesTransformer($options['enum_class']));
@@ -71,7 +69,6 @@ class EnumType extends AbstractType
         };
 
         $resolver
-            ->setDefined(array('enum_class', 'choices'))
             ->setDefaults(
                 array(
                     'enum_class' => $enumClass,
@@ -83,23 +80,24 @@ class EnumType extends AbstractType
             ->setAllowedTypes('choices', array('array'));
     }
 
-
-    /**
-     * Returns the name of the parent type.
-     *
-     * @return string|null The name of the parent type if any otherwise null
-     */
     public function getParent()
     {
-        return ChoiceType::class;
+        if (method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix')) {
+            return 'Symfony\Component\Form\Extension\Core\Type\ChoiceType';
+        }
+
+        return 'choice';
     }
 
     /**
-     * Returns the name of this type.
-     *
-     * @return string The name of this type
+     * BC for SF < 3.0
      */
     public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
+
+    public function getBlockPrefix()
     {
         return 'biplane_enum';
     }

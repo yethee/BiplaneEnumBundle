@@ -4,9 +4,8 @@ namespace Biplane\EnumBundle\Tests\Form\Type;
 
 use Biplane\EnumBundle\Enumeration\FlaggedEnum;
 use Biplane\EnumBundle\Form\EnumExtension;
-use Biplane\EnumBundle\Form\Type\EnumType;
-use Biplane\EnumBundle\Tests\Fixtures\SimpleEnum;
 use Biplane\EnumBundle\Tests\Fixtures\FlagsEnum;
+use Biplane\EnumBundle\Tests\Fixtures\SimpleEnum;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 
 class EnumTypeTest extends FormIntegrationTestCase
@@ -19,7 +18,7 @@ class EnumTypeTest extends FormIntegrationTestCase
      */
     public function testThrowExceptionWhenOptionEnumClassIsMissing()
     {
-        $this->factory->create(EnumType::class);
+        $this->factory->create($this->getType());
     }
 
     /**
@@ -28,7 +27,7 @@ class EnumTypeTest extends FormIntegrationTestCase
      */
     public function testThrowExceptionWhenSpecifiedEnumClassNotImplementEnumInterface()
     {
-        $this->factory->create(EnumType::class, null, array(
+        $this->factory->create($this->getType(), null, array(
             'enum_class' => __CLASS__
         ));
     }
@@ -39,7 +38,7 @@ class EnumTypeTest extends FormIntegrationTestCase
      */
     public function testThrowExceptionWhenSpecifiedEnumClassDoesNotExists()
     {
-        $this->factory->create(EnumType::class, null, array(
+        $this->factory->create($this->getType(), null, array(
             'enum_class' => 'InvalidClass'
         ));
     }
@@ -49,7 +48,7 @@ class EnumTypeTest extends FormIntegrationTestCase
      */
     public function testThrowExceptionWhenAppDataNotArrayForMultipleChoices()
     {
-        $field = $this->factory->create(EnumType::class, null, array(
+        $field = $this->factory->create($this->getType(), null, array(
             'multiple' => true,
             'enum_class' => self::SIMPLE_ENUM_CLASS
         ));
@@ -62,7 +61,7 @@ class EnumTypeTest extends FormIntegrationTestCase
      */
     public function testThrowExcetionWhenAppDataIsInvalidForMultipleChoices()
     {
-        $field = $this->factory->create(EnumType::class, null, array(
+        $field = $this->factory->create($this->getType(), null, array(
             'multiple' => true,
             'enum_class' => self::SIMPLE_ENUM_CLASS
         ));
@@ -78,7 +77,7 @@ class EnumTypeTest extends FormIntegrationTestCase
      */
     public function testThrowExcetionWhenAppDataIsInvalidForSingleChoice()
     {
-        $field = $this->factory->create(EnumType::class, null, array(
+        $field = $this->factory->create($this->getType(), null, array(
             'enum_class' => self::SIMPLE_ENUM_CLASS
         ));
 
@@ -87,7 +86,7 @@ class EnumTypeTest extends FormIntegrationTestCase
 
     public function testBindSingleNull()
     {
-        $field = $this->factory->create(EnumType::class, null, array(
+        $field = $this->factory->create($this->getType(), null, array(
             'enum_class' => self::SIMPLE_ENUM_CLASS
         ));
 
@@ -100,7 +99,7 @@ class EnumTypeTest extends FormIntegrationTestCase
 
     public function testBindSingle()
     {
-        $field = $this->factory->create(EnumType::class, null, array(
+        $field = $this->factory->create($this->getType(), null, array(
             'enum_class' => self::SIMPLE_ENUM_CLASS
         ));
 
@@ -113,7 +112,7 @@ class EnumTypeTest extends FormIntegrationTestCase
 
     public function testBindMultipleNull()
     {
-        $field = $this->factory->create(EnumType::class, null, array(
+        $field = $this->factory->create($this->getType(), null, array(
             'multiple' => true,
             'enum_class' => self::SIMPLE_ENUM_CLASS
         ));
@@ -126,7 +125,7 @@ class EnumTypeTest extends FormIntegrationTestCase
 
     public function testBindMultipleNull_FlagEnum()
     {
-        $field = $this->factory->create(EnumType::class, null, array(
+        $field = $this->factory->create($this->getType(), null, array(
             'multiple' => true,
             'enum_class' => self::FLAGS_ENUM_CLASS
         ));
@@ -141,7 +140,7 @@ class EnumTypeTest extends FormIntegrationTestCase
 
     public function testBindMultipleExpanded()
     {
-        $field = $this->factory->create(EnumType::class, null, array(
+        $field = $this->factory->create($this->getType(), null, array(
             'multiple' => true,
             'expanded' => true,
             'enum_class' => self::SIMPLE_ENUM_CLASS
@@ -162,7 +161,7 @@ class EnumTypeTest extends FormIntegrationTestCase
 
     public function testBindMultipleExpanded_FlagEnum()
     {
-        $field = $this->factory->create(EnumType::class, null, array(
+        $field = $this->factory->create($this->getType(), null, array(
             'multiple' => true,
             'expanded' => true,
             'enum_class' => self::FLAGS_ENUM_CLASS
@@ -185,7 +184,7 @@ class EnumTypeTest extends FormIntegrationTestCase
 
     public function testSetDataSingleNull()
     {
-        $field = $this->factory->create(EnumType::class, null, array(
+        $field = $this->factory->create($this->getType(), null, array(
             'enum_class' => self::SIMPLE_ENUM_CLASS
         ));
 
@@ -197,7 +196,7 @@ class EnumTypeTest extends FormIntegrationTestCase
 
     public function testSetDataMultipleExpandedNull()
     {
-        $field = $this->factory->create(EnumType::class, null, array(
+        $field = $this->factory->create($this->getType(), null, array(
             'multiple' => true,
             'expanded' => true,
             'enum_class' => self::SIMPLE_ENUM_CLASS
@@ -211,7 +210,7 @@ class EnumTypeTest extends FormIntegrationTestCase
 
     public function testSetDataMultipleNonExpandedNull()
     {
-        $field = $this->factory->create(EnumType::class, null, array(
+        $field = $this->factory->create($this->getType(), null, array(
             'multiple' => true,
             'expanded' => false,
             'enum_class' => self::SIMPLE_ENUM_CLASS
@@ -226,7 +225,7 @@ class EnumTypeTest extends FormIntegrationTestCase
     public function testSetDataSingle()
     {
         $data = SimpleEnum::create(1);
-        $field = $this->factory->create(EnumType::class, null, array(
+        $field = $this->factory->create($this->getType(), null, array(
             'enum_class' => self::SIMPLE_ENUM_CLASS
         ));
 
@@ -239,7 +238,7 @@ class EnumTypeTest extends FormIntegrationTestCase
     public function testSetDataMultipleExpanded()
     {
         $data = array(SimpleEnum::create(1));
-        $field = $this->factory->create(EnumType::class, null, array(
+        $field = $this->factory->create($this->getType(), null, array(
             'multiple' => true,
             'expanded' => true,
             'enum_class' => self::SIMPLE_ENUM_CLASS
@@ -254,7 +253,7 @@ class EnumTypeTest extends FormIntegrationTestCase
     public function testSetDataMultipleExpanded_FlagEnum()
     {
         $data = FlagsEnum::create(1 | 4);
-        $field = $this->factory->create(EnumType::class, null, array(
+        $field = $this->factory->create($this->getType(), null, array(
             'multiple' => true,
             'expanded' => true,
             'enum_class' => self::FLAGS_ENUM_CLASS
@@ -267,12 +266,19 @@ class EnumTypeTest extends FormIntegrationTestCase
         $this->assertEquals(array(0 => 1, 1 => 4), $field->getViewData());
     }
 
-
-
     protected function getExtensions()
     {
         return array_merge(parent::getExtensions(), array(
             new EnumExtension(),
         ));
+    }
+
+    private function getType()
+    {
+        if (method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix')) {
+            return 'Biplane\EnumBundle\Form\Type\EnumType';
+        }
+
+        return 'biplane_enum';
     }
 }
