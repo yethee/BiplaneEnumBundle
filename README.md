@@ -1,69 +1,30 @@
-BiplaneEnumBundle [![Build Status](https://secure.travis-ci.org/yethee/BiplaneEnumBundle.png?branch=master)](http://travis-ci.org/yethee/BiplaneEnumBundle)
-=================
+# BiplaneEnumBundle [![Build Status](https://secure.travis-ci.org/yethee/BiplaneEnumBundle.png?branch=master)](http://travis-ci.org/yethee/BiplaneEnumBundle)
 
 This bundle provides a typed enumeration for your Symfony2 project.
 
 **Note:** For Symfony 2.0.x, you need to use the 1.0.0 release of the bundle.
-**Note:** For Symfony >=2.7, you need to use the 2.0.0 release of the bundle.
+
+**Note:** For Symfony less than 2.7, you need to use the 1.2.0 release of the bundle.
 
 ### Features
 
 - Provides base implementation for enum type.
 - Provides base implementation for flags enum type (treated as a bit field, that is a set of flags).
-- Uses enum types with Symfony2's Form Component.
-- Contains normalizer for Symfony2's Serializer Component.
+- Uses enum types with Symfony's Form Component.
+- Contains normalizer for Symfony's Serializer Component.
 - Contains the custom handler for JMSSerializerBundle.
 
-Installation
-------------
+## Installation
 
 ### Add this bundle to your project
 
-**Using the vendors script**
-
-Add the following lines in your `deps` file:
-
-    [BiplaneEnumBundle]
-        git=http://github.com/yethee/BiplaneEnumBundle.git
-        target=bundles/Biplane/EnumBundle
-
-Run the vendors script:
+Install the bundle by running in a shell:
 
 ```bash
-$ php bin/vendors install
+$ composer require yethee/enum-bundle
 ```
 
-**Using Git submodule**
-
-```bash
-$ git submodule add http://github.com/yethee/BiplaneEnumBundle.git vendor/bundles/Biplane/EnumBundle
-$ git submodule update --init
-```
-
-**Using composer**
-
-Add BiplaneEnumBundle in your composer.json:
-
-```js
-  "require": {
-    // ...
-    "yethee/enum-bundle": "*"
-  }
-```
-
-### Add the Biplane namespace to your autoloader
-
-```php
-<?php
-// app/autoload.php
-
-$loader->registerNamespaces(array(
-    'Biplane' => __DIR__.'/../vendor/bundles',
-    // your other namespaces
-));
-```
-
-### Add this bundle to your application kernel
+Add the bundle to your application kernel
 
 ```php
 <?php
@@ -79,8 +40,7 @@ public function registerBundles()
 }
 ```
 
-Usage
------
+## Usage
 
 In order to create a typed enumeration, it's enough to extend the base class `Biplane\EnumBundle\Enumeration\Enum`
 - define constants and implement `getPossibleValues()` and `getReadables()` methods. The first method
@@ -272,8 +232,7 @@ class User
 }
 ```
 
-JMSSerializerBundle support
----------------------------
+## JMSSerializerBundle support
 
 This bundle provides a custom handler for the serializer to allow serialize the Enum object
 as scalar value to json or xml format. The custom handler uses only for those typed enumerations
