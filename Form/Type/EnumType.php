@@ -2,14 +2,15 @@
 
 namespace Biplane\EnumBundle\Form\Type;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Exception\InvalidConfigurationException;
-use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Biplane\EnumBundle\Form\DataTransformer\EnumToValueTransformer;
 use Biplane\EnumBundle\Form\DataTransformer\EnumsToValuesTransformer;
+use Biplane\EnumBundle\Form\DataTransformer\EnumToValueTransformer;
 use Biplane\EnumBundle\Form\DataTransformer\FlaggedEnumToValuesTransformer;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Exception\InvalidConfigurationException;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * EnumType
@@ -29,6 +30,7 @@ class EnumType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         try {
+            $builder->resetModelTransformers();
             if ($options['multiple']) {
                 if (is_subclass_of($options['enum_class'], 'Biplane\EnumBundle\Enumeration\FlaggedEnum')) {
                     $builder->addModelTransformer(new FlaggedEnumToValuesTransformer($options['enum_class']));
@@ -41,44 +43,46 @@ class EnumType extends AbstractType
         } catch (\InvalidArgumentException $ex) {
             throw new InvalidConfigurationException($ex->getMessage());
         } catch (\ReflectionException $ex) {
-            throw new InvalidConfigurationException(sprintf(
-                'The "enum_class" (%s) does not exist.', $options['enum_class']
-            ));
+            throw new InvalidConfigurationException(
+                sprintf(
+                    'The "enum_class" (%s) does not exist.',
+                    $options['enum_class']
+                )
+            );
         }
     }
 
-    /**
-     * Sets the default options for this type.
-     *
-     * @param OptionsResolverInterface $resolver The resolver for the options.
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $choices = function(Options $options) {
+        $choices = function (Options $options) {
             if ($options['enum_class'] !== null && method_exists($options['enum_class'], 'getReadables')) {
-                return $options['enum_class']::getReadables();
+                return array_flip($options['enum_class']::getReadables());
             }
 
             return array();
         };
 
-        $enumClass = function(Options $options) {
-            if ($options->has('data') && is_object($enum = $options->get('data'))) {
+        $enumClass = function (Options $options) {
+            if ($options->offsetExists('data') && is_object($enum = $options->offsetGet('data'))) {
                 return get_class($enum);
             }
 
             return null;
         };
 
-        $resolver->setDefaults(array(
-            'enum_class' => $enumClass,
-            'choices'    => $choices,
-        ));
-
-        $resolver->setAllowedTypes(array(
-            'enum_class' => 'string'
-        ));
+        $resolver
+            ->setDefined(array('enum_class', 'choices'))
+            ->setDefaults(
+                array(
+                    'enum_class' => $enumClass,
+                    'choices' => $choices,
+                    'choices_as_values' => true,
+                )
+            )
+            ->setAllowedTypes('enum_class', array('string'))
+            ->setAllowedTypes('choices', array('array'));
     }
+
 
     /**
      * Returns the name of the parent type.
@@ -87,7 +91,7 @@ class EnumType extends AbstractType
      */
     public function getParent()
     {
-        return 'choice';
+        return ChoiceType::class;
     }
 
     /**

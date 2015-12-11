@@ -4,6 +4,7 @@ BiplaneEnumBundle [![Build Status](https://secure.travis-ci.org/yethee/BiplaneEn
 This bundle provides a typed enumeration for your Symfony2 project.
 
 **Note:** For Symfony 2.0.x, you need to use the 1.0.0 release of the bundle.
+**Note:** For Symfony >=2.7, you need to use the 2.0.0 release of the bundle.
 
 ### Features
 
