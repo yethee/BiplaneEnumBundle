@@ -74,6 +74,9 @@ class EnumType extends AbstractType
                     'enum_class' => $enumClass,
                     'choices' => $choices,
                     'choices_as_values' => true,
+                    'choice_value' => function ($choice) {
+                        return $choice;
+                    }
                 )
             )
             ->setAllowedTypes('enum_class', array('string'))
