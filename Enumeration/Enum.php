@@ -24,13 +24,7 @@ abstract class Enum implements EnumInterface
     }
 
     /**
-     * Instanciates a new enumeration.
-     *
-     * @param mixed $value The value of a particular enumerated constant
-     *
-     * @return EnumInterface A new instance of an enum
-     *
-     * @throws InvalidEnumArgumentException When $value is not acceptable for this enumeration type
+     * {@inheritdoc}
      */
     public static function create($value)
     {
@@ -42,9 +36,7 @@ abstract class Enum implements EnumInterface
     }
 
     /**
-     * Gets the raw value.
-     *
-     * @return mixed
+     * {@inheritdoc}
      */
     public function getValue()
     {
@@ -52,9 +44,7 @@ abstract class Enum implements EnumInterface
     }
 
     /**
-     * Returns the human representation of the value.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getReadable()
     {
@@ -72,11 +62,7 @@ abstract class Enum implements EnumInterface
     }
 
     /**
-     * Tells is this value is acceptable.
-     *
-     * @param mixed $value
-     *
-     * @return boolean True if $value is acceptable for this enumeration type; otherwise false
+     * {@inheritdoc}
      */
     public static function isAcceptableValue($value)
     {
@@ -84,13 +70,7 @@ abstract class Enum implements EnumInterface
     }
 
     /**
-     * Gets the human representation for a given value.
-     *
-     * @param mixed $value The value of a particular enumerated constant
-     *
-     * @return string The human representation for a given value
-     *
-     * @throws InvalidEnumArgumentException When $value is not acceptable for this enumeration type
+     * {@inheritdoc}
      */
     public static function getReadableFor($value)
     {
@@ -104,11 +84,7 @@ abstract class Enum implements EnumInterface
     }
 
     /**
-     * Determines whether enums are equals.
-     *
-     * @param EnumInterface $enum An enum object to compare with this instance
-     *
-     * @return bool True if $enum is an enum with the same type and value as this instance; otherwise, false
+     * {@inheritdoc}
      */
     public function equals(EnumInterface $enum)
     {

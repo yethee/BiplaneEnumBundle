@@ -18,13 +18,7 @@ abstract class FlaggedEnum extends Enum
     protected $flags;
 
     /**
-     * Tells is this value is acceptable.
-     *
-     * @param mixed $value
-     *
-     * @return boolean True if $value is acceptable for this enumeration type; otherwise false
-     *
-     * @throws \InvalidArgumentException When $value is invalid type
+     * {@inheritdoc}
      */
     public static function isAcceptableValue($value)
     {
@@ -43,14 +37,7 @@ abstract class FlaggedEnum extends Enum
     }
 
     /**
-     * Gets the human representation for a given value.
-     *
-     * @param mixed  $value     The value of a particular enumerated constant
-     * @param string $separator The separator for names of flags
-     *
-     * @return string The human representation for a given value
-     *
-     * @throws InvalidEnumArgumentException When $value is not acceptable for this enumeration type
+     * {@inheritdoc}
      */
     public static function getReadableFor($value, $separator = '; ')
     {
@@ -147,11 +134,7 @@ abstract class FlaggedEnum extends Enum
     }
 
     /**
-     * Gets the human representation of the value.
-     *
-     * @param string $separator The separator for names of flags
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getReadable($separator = '; ')
     {
