@@ -30,8 +30,6 @@
         "jms/serializer-bundle": "<1.1"
     },
 
-    "minimum-stability": "dev",
-
     "autoload": {
         "psr-0": { "Biplane\\EnumBundle": "" }
     },
