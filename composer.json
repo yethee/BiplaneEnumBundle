@@ -31,10 +31,8 @@
     },
 
     "autoload": {
-        "psr-0": { "Biplane\\EnumBundle": "" }
+        "psr-4": { "Biplane\\EnumBundle\\": "" }
     },
-
-    "target-dir": "Biplane/EnumBundle",
 
     "extra": {
         "branch-alias": {

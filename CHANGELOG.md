@@ -5,6 +5,7 @@ Changelog
 -----
 
  * Added support for Symfony 3.0
+ * Use PSR-4 instead of PSR-0
 
 1.2.0
 -----
