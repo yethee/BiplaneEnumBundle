@@ -8,6 +8,8 @@ use Biplane\EnumBundle\Form\DataTransformer\FlaggedEnumToValuesTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -46,6 +48,19 @@ class EnumType extends AbstractType
                     'The "enum_class" (%s) does not exist.',
                     $options['enum_class']
                 )
+            );
+        }
+
+        if ($options['expanded'] && !$options['multiple']) {
+            // Register the listener with high priority.
+            // This allow prevent to transform data by the listener
+            // which is registered with the ChoiceType.
+            $builder->addEventListener(
+                FormEvents::PRE_SET_DATA,
+                function (FormEvent $event) {
+                    $event->stopPropagation();
+                },
+                16
             );
         }
     }

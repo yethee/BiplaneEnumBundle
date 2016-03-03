@@ -250,6 +250,22 @@ class EnumTypeTest extends FormIntegrationTestCase
         $this->assertEquals(array(0 => 1), $field->getViewData());
     }
 
+    public function testSetDataExpanded()
+    {
+        $data = SimpleEnum::create(1);
+        $field = $this->factory->create($this->getType(), null, array(
+            'multiple' => false,
+            'expanded' => true,
+            'enum_class' => self::SIMPLE_ENUM_CLASS
+        ));
+
+        $field->setData($data);
+
+        $this->assertEquals($data, $field->getData());
+        $this->assertEquals(1, $field->getNormData());
+        $this->assertEquals(1, $field->getViewData());
+    }
+
     public function testSetDataMultipleExpanded_FlagEnum()
     {
         $data = FlagsEnum::create(1 | 4);
