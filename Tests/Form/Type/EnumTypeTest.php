@@ -254,7 +254,6 @@ class EnumTypeTest extends FormIntegrationTestCase
     {
         $data = FlagsEnum::create(1 | 4);
         $field = $this->factory->create($this->getType(), null, array(
-            'multiple' => true,
             'expanded' => true,
             'enum_class' => self::FLAGS_ENUM_CLASS
         ));

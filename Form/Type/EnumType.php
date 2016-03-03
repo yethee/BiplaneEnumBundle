@@ -30,7 +30,7 @@ class EnumType extends AbstractType
     {
         try {
             if ($options['multiple']) {
-                if (is_subclass_of($options['enum_class'], 'Biplane\EnumBundle\Enumeration\FlaggedEnum')) {
+                if ($this->isFlaggedEnum($options['enum_class'])) {
                     $builder->addModelTransformer(new FlaggedEnumToValuesTransformer($options['enum_class']));
                 } else {
                     $builder->addModelTransformer(new EnumsToValuesTransformer($options['enum_class']));
@@ -68,6 +68,14 @@ class EnumType extends AbstractType
             return null;
         };
 
+        $multiple = function (Options $options, $value) {
+            if ($this->isFlaggedEnum($options['enum_class'])) {
+                return true;
+            }
+
+            return $value;
+        };
+
         $resolver
             ->setDefaults(
                 array(
@@ -76,7 +84,8 @@ class EnumType extends AbstractType
                     'choices_as_values' => true,
                     'choice_value' => function ($choice) {
                         return $choice;
-                    }
+                    },
+                    'multiple' => $multiple,
                 )
             )
             ->setAllowedTypes('enum_class', array('string'))
@@ -103,5 +112,10 @@ class EnumType extends AbstractType
     public function getBlockPrefix()
     {
         return 'biplane_enum';
+    }
+
+    private function isFlaggedEnum($enumClass)
+    {
+        return is_subclass_of($enumClass, 'Biplane\EnumBundle\Enumeration\FlaggedEnum');
     }
 }
