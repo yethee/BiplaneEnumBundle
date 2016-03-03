@@ -7,6 +7,8 @@ use Biplane\EnumBundle\Form\DataTransformer\EnumToValueTransformer;
 use Biplane\EnumBundle\Form\DataTransformer\FlaggedEnumToValuesTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
+use Symfony\Component\Form\Extension\Core\DataTransformer\ChoicesToValuesTransformer;
+use Symfony\Component\Form\Extension\Core\DataTransformer\ChoiceToValueTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -51,7 +53,7 @@ class EnumType extends AbstractType
             );
         }
 
-        if ($options['expanded'] && !$options['multiple']) {
+        if ($options['expanded']) {
             // Register the listener with high priority.
             // This allow prevent to transform data by the listener
             // which is registered with the ChoiceType.
@@ -62,6 +64,14 @@ class EnumType extends AbstractType
                 },
                 16
             );
+
+            if ($options['multiple']) {
+                // <select> tag with "multiple" option
+                $builder->addViewTransformer(new ChoicesToValuesTransformer($options['choice_list']));
+            } else {
+                // <select> tag without "multiple" option
+                $builder->addViewTransformer(new ChoiceToValueTransformer($options['choice_list']));
+            }
         }
     }
 

@@ -232,7 +232,7 @@ class EnumTypeTest extends FormIntegrationTestCase
         $field->setData($data);
 
         $this->assertEquals($data, $field->getData());
-        $this->assertEquals('1', $field->getViewData());
+        $this->assertSame('1', $field->getViewData());
     }
 
     public function testSetDataMultipleExpanded()
@@ -247,7 +247,7 @@ class EnumTypeTest extends FormIntegrationTestCase
         $field->setData($data);
 
         $this->assertEquals($data, $field->getData());
-        $this->assertEquals(array(0 => 1), $field->getViewData());
+        $this->assertSame(array(0 => '1'), $field->getViewData());
     }
 
     public function testSetDataExpanded()
@@ -263,7 +263,7 @@ class EnumTypeTest extends FormIntegrationTestCase
 
         $this->assertEquals($data, $field->getData());
         $this->assertEquals(1, $field->getNormData());
-        $this->assertEquals(1, $field->getViewData());
+        $this->assertSame('1', $field->getViewData());
     }
 
     public function testSetDataMultipleExpanded_FlagEnum()
