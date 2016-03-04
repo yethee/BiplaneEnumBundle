@@ -6,6 +6,7 @@ use Biplane\EnumBundle\Enumeration\FlaggedEnum;
 use Biplane\EnumBundle\Form\EnumExtension;
 use Biplane\EnumBundle\Tests\Fixtures\FlagsEnum;
 use Biplane\EnumBundle\Tests\Fixtures\SimpleEnum;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 
 class EnumTypeTest extends FormIntegrationTestCase
@@ -206,6 +207,10 @@ class EnumTypeTest extends FormIntegrationTestCase
 
         $this->assertNull($field->getData());
         $this->assertEquals(array(), $field->getViewData());
+
+        foreach ($field->all() as $child) {
+            $this->assertSubForm($child, false, null);
+        }
     }
 
     public function testSetDataMultipleNonExpandedNull()
@@ -237,7 +242,10 @@ class EnumTypeTest extends FormIntegrationTestCase
 
     public function testSetDataMultipleExpanded()
     {
-        $data = array(SimpleEnum::create(1));
+        $data = array(
+            SimpleEnum::create(SimpleEnum::FIRST),
+            SimpleEnum::create(SimpleEnum::ZERO),
+        );
         $field = $this->factory->create($this->getType(), null, array(
             'multiple' => true,
             'expanded' => true,
@@ -247,7 +255,11 @@ class EnumTypeTest extends FormIntegrationTestCase
         $field->setData($data);
 
         $this->assertEquals($data, $field->getData());
-        $this->assertEquals(array(0 => 1), $field->getViewData());
+        $this->assertSame(array(0 => 1, 1 => 0), $field->getViewData());
+
+        $this->assertSubForm($field->get('0'), true, '0');
+        $this->assertSubForm($field->get('1'), true, '1');
+        $this->assertSubForm($field->get('2'), false, null);
     }
 
     public function testSetDataExpanded()
@@ -262,8 +274,12 @@ class EnumTypeTest extends FormIntegrationTestCase
         $field->setData($data);
 
         $this->assertEquals($data, $field->getData());
-        $this->assertEquals(1, $field->getNormData());
-        $this->assertEquals(1, $field->getViewData());
+        $this->assertSame('1', $field->getNormData());
+        $this->assertSame('1', $field->getViewData());
+
+        $this->assertSubForm($field->get('0'), false, null);
+        $this->assertSubForm($field->get('1'), true, '1');
+        $this->assertSubForm($field->get('2'), false, null);
     }
 
     public function testSetDataMultipleExpanded_FlagEnum()
@@ -279,6 +295,11 @@ class EnumTypeTest extends FormIntegrationTestCase
         $this->assertEquals($data, $field->getData());
         $this->assertEquals(array(1, 4), $field->getNormData());
         $this->assertEquals(array(0 => 1, 1 => 4), $field->getViewData());
+
+        $this->assertSubForm($field->get('0'), true, '1');
+        $this->assertSubForm($field->get('1'), false, null);
+        $this->assertSubForm($field->get('2'), true, '4');
+        $this->assertSubForm($field->get('3'), false, null);
     }
 
     protected function getExtensions()
@@ -295,5 +316,11 @@ class EnumTypeTest extends FormIntegrationTestCase
         }
 
         return 'biplane_enum';
+    }
+
+    private function assertSubForm(FormInterface $form, $data, $viewData)
+    {
+        $this->assertSame($data, $form->getData(), '->getData() of sub form #' . $form->getName());
+        $this->assertSame($viewData, $form->getViewData(), '->getViewData() of sub form #' . $form->getName());
     }
 }

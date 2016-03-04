@@ -64,6 +64,6 @@ class EnumToValueTransformer extends BaseEnumTransformer
             throw new UnexpectedTypeException($value, $this->enumClass);
         }
 
-        return $value->getValue();
+        return (string)$value->getValue();
     }
 }
