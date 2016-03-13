@@ -1,6 +1,11 @@
 Changelog
 =========
 
+2.0.1
+-----
+
+* Support latest versions of Symfony (2.7.10, 2.8.3)
+
 2.0.0
 -----
 
