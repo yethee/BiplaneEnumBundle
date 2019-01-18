@@ -17,8 +17,16 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $treeBuilder->root('biplane_enum')
+        $treeBuilder = new TreeBuilder('biplane_enum');
+
+        if (method_exists($treeBuilder, 'getRootNode')) {
+            $rootNode = $treeBuilder->getRootNode();
+        } else {
+            // BC layer for symfony/config 4.1 and older
+            $rootNode = $treeBuilder->root('doctrine_migrations');
+        }
+
+        $rootNode
             ->children()
                 ->arrayNode('serializer')
                     ->addDefaultsIfNotSet()
