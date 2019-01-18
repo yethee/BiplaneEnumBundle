@@ -111,19 +111,7 @@ class EnumType extends AbstractType
 
     public function getParent()
     {
-        if (method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix')) {
-            return ChoiceType::class;
-        }
-
-        return 'choice';
-    }
-
-    /**
-     * BC for SF < 3.0
-     */
-    public function getName()
-    {
-        return $this->getBlockPrefix();
+        return ChoiceType::class;
     }
 
     public function getBlockPrefix()
