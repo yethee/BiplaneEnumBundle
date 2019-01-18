@@ -5,15 +5,17 @@ namespace Biplane\EnumBundle\Serializer\Normalizer;
 use Biplane\EnumBundle\Enumeration\EnumInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Symfony\Component\Serializer\Normalizer\SerializerAwareNormalizer;
+use Symfony\Component\Serializer\SerializerAwareTrait;
 
 /**
  * EnumNormalizer
  *
  * @author Denis Vasilev <yethee@biplane.ru>
  */
-class EnumNormalizer extends SerializerAwareNormalizer implements NormalizerInterface, DenormalizerInterface
+class EnumNormalizer implements NormalizerInterface, DenormalizerInterface
 {
+    use SerializerAwareTrait;
+
     /**
      * Normalizes an object into a set of arrays/scalars
      *
