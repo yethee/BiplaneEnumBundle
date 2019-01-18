@@ -1,29 +1,39 @@
 language: php
-
 sudo: false
+dist: trusty
 
 cache:
   directories:
     - $HOME/.composer/cache
 
 php:
-  - 5.5.9
   - 5.6
   - 7.0
-  - hhvm
-
-matrix:
-  fast_finish: true
-  include:
-    - php: 5.4
-      env: COMPOSER_FLAGS="--prefer-lowest --prefer-stable"
-    - php: 5.4
-      env: SYMFONY_VERSION=2.8.*
+  - 7.1
+  - 7.2
+  - 7.3
 
 before_install:
-  - composer self-update
-  - if [ "$SYMFONY_VERSION" != "" ]; then composer require --no-update symfony/symfony:${SYMFONY_VERSION}; fi;
+  - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{,.disabled} || echo "xdebug not available"
+  - travis_retry composer self-update
 
-install: composer update -n $COMPOSER_FLAGS
+install:
+  - travis_retry composer update --prefer-dist
 
-script: phpunit --coverage-text
+script:
+  - ./vendor/bin/phpunit
+
+jobs:
+  include:
+    - stage: Test
+      env: DEPENDENCIES=low
+      install:
+        - travis_retry composer update --prefer-dist --prefer-lowest
+
+    - stage: Test
+      env: COVERAGE
+      before_script:
+        - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{.disabled,}
+        - if [[ ! $(php -m | grep -si xdebug) ]]; then echo "xdebug required for coverage"; exit 1; fi
+      script:
+        - ./vendor/bin/phpunit --coverage-text
