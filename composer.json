@@ -1,7 +1,7 @@
 {
     "name": "yethee/enum-bundle",
     "type": "symfony-bundle",
-    "description": "This bundle provides a typed enumeration for Symfony2 applications",
+    "description": "This bundle provides a typed enumeration for Symfony applications",
     "keywords": ["typed enumeration"],
     "license": "MIT",
     "authors": [
@@ -9,7 +9,7 @@
     ],
 
     "require": {
-        "php": ">=5.4",
+        "php": ">=5.6",
         "symfony/framework-bundle": "^3.4|^4.0",
         "symfony/form": "^3.4|^4.0"
     },
@@ -36,7 +36,7 @@
 
     "extra": {
         "branch-alias": {
-          "dev-master": "2.0-dev"
+          "dev-master": "3.0-dev"
         }
     }
 }
