@@ -1,6 +1,12 @@
 Changelog
 =========
 
+3.0.0
+-----
+
+* Compatible with Symfony 4.x
+* Dropped support Symfony < 3.4
+
 2.0.1
 -----
 
