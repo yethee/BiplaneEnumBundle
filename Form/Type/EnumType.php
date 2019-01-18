@@ -2,11 +2,13 @@
 
 namespace Biplane\EnumBundle\Form\Type;
 
+use Biplane\EnumBundle\Enumeration\FlaggedEnum;
 use Biplane\EnumBundle\Form\DataTransformer\EnumsToValuesTransformer;
 use Biplane\EnumBundle\Form\DataTransformer\EnumToValueTransformer;
 use Biplane\EnumBundle\Form\DataTransformer\FlaggedEnumToValuesTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -110,7 +112,7 @@ class EnumType extends AbstractType
     public function getParent()
     {
         if (method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix')) {
-            return 'Symfony\Component\Form\Extension\Core\Type\ChoiceType';
+            return ChoiceType::class;
         }
 
         return 'choice';
@@ -131,6 +133,6 @@ class EnumType extends AbstractType
 
     private function isFlaggedEnum($enumClass)
     {
-        return is_subclass_of($enumClass, 'Biplane\EnumBundle\Enumeration\FlaggedEnum');
+        return is_subclass_of($enumClass, FlaggedEnum::class);
     }
 }

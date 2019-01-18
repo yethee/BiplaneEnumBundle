@@ -40,7 +40,7 @@ abstract class BaseSerializationTest extends \PHPUnit_Framework_TestCase
 
     public function testArrayEnums()
     {
-        $this->registerHandler('Biplane\EnumBundle\Tests\Fixtures\SimpleEnum');
+        $this->registerHandler(SimpleEnum::class);
 
         $data = array(
             SimpleEnum::create(SimpleEnum::FIRST),

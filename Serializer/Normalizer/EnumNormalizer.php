@@ -71,7 +71,7 @@ class EnumNormalizer implements NormalizerInterface, DenormalizerInterface
     {
         $reflection = new \ReflectionClass($type);
 
-        if ($reflection->isSubclassOf('Biplane\\EnumBundle\\Enumeration\\EnumInterface')) {
+        if ($reflection->isSubclassOf(EnumInterface::class)) {
             if (call_user_func(array($type, 'isAcceptableValue'), $data)) {
                 return true;
             }

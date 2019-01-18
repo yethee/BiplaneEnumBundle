@@ -28,10 +28,11 @@ abstract class BaseEnumTransformer implements DataTransformerInterface
     {
         $reflection = new \ReflectionClass($enumClass);
 
-        if (!$reflection->implementsInterface('Biplane\EnumBundle\Enumeration\EnumInterface')) {
+        if (!$reflection->implementsInterface(EnumInterface::class)) {
             throw new \InvalidArgumentException(sprintf(
-                'Enum class "%s" must be implements of Biplane\EnumBundle\Enumeration\EnumInterface.',
-                $enumClass
+                'Enum class "%s" must be implements of %s',
+                $enumClass,
+                EnumInterface::class
             ));
         }
 

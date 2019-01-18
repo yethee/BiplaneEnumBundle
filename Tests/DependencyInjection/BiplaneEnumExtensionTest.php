@@ -2,9 +2,10 @@
 
 namespace Biplane\EnumBundle\Tests\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use JMS\Serializer\GraphNavigator;
 use Biplane\EnumBundle\DependencyInjection\BiplaneEnumExtension;
+use Biplane\EnumBundle\Tests\Fixtures\FlagsEnum;
+use Biplane\EnumBundle\Tests\Fixtures\SimpleEnum;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * @author Denis Vasilev <yethee@biplane.ru>
@@ -33,8 +34,8 @@ class BiplaneEnumExtensionTest extends \PHPUnit_Framework_TestCase
         $config = array(
             'serializer' => array(
                 'types' => array(
-                    'Biplane\EnumBundle\Tests\Fixtures\SimpleEnum',
-                    'Biplane\EnumBundle\Tests\Fixtures\FlagsEnum',
+                    SimpleEnum::class,
+                    FlagsEnum::class,
                 )
             )
         );
@@ -47,10 +48,10 @@ class BiplaneEnumExtensionTest extends \PHPUnit_Framework_TestCase
             ->getTag('jms_serializer.handler');
 
         $this->assertCount(4, $tagAttributes);
-        $this->assertTagAttributes($tagAttributes[0], 'Biplane\EnumBundle\Tests\Fixtures\SimpleEnum', 'json');
-        $this->assertTagAttributes($tagAttributes[1], 'Biplane\EnumBundle\Tests\Fixtures\SimpleEnum', 'xml');
-        $this->assertTagAttributes($tagAttributes[2], 'Biplane\EnumBundle\Tests\Fixtures\FlagsEnum', 'json');
-        $this->assertTagAttributes($tagAttributes[3], 'Biplane\EnumBundle\Tests\Fixtures\FlagsEnum', 'xml');
+        $this->assertTagAttributes($tagAttributes[0], SimpleEnum::class, 'json');
+        $this->assertTagAttributes($tagAttributes[1], SimpleEnum::class, 'xml');
+        $this->assertTagAttributes($tagAttributes[2], FlagsEnum::class, 'json');
+        $this->assertTagAttributes($tagAttributes[3], FlagsEnum::class, 'xml');
     }
 
     protected function setUp()
