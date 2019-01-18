@@ -252,7 +252,10 @@ class EnumTypeTest extends FormIntegrationTestCase
         $field->setData($data);
 
         $this->assertEquals($data, $field->getData());
-        $this->assertSame(array(0 => 1, 1 => 0), $field->getViewData());
+        $this->assertSame(array(
+            0 => '1',
+            1 => '0'
+        ), $field->getViewData());
 
         $this->assertSubForm($field->get('0'), true, '0');
         $this->assertSubForm($field->get('1'), true, '1');
