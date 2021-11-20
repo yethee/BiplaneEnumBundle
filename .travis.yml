@@ -1,39 +1,27 @@
 language: php
 sudo: false
-dist: trusty
 
 cache:
   directories:
     - $HOME/.composer/cache
 
-php:
-  - 5.6
-  - 7.0
-  - 7.1
-  - 7.2
-  - 7.3
+matrix:
+  fast_finish: true
+  include:
+    - php: 5.6
+      env:
+        - DEPENDENCIES="--prefer-lowest --prefer-stable"
+    - php: 7.0
+    - php: 7.1
+    - php: 7.2
+    - php: 7.3
+      env:
+        - TEST_COVERAGE=true
 
-before_install:
-  - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{,.disabled} || echo "xdebug not available"
-  - travis_retry composer self-update
-
-install:
-  - travis_retry composer update --prefer-dist
+before_script:
+  - phpenv config-rm xdebug.ini || true
+  - composer self-update
+  - composer update $DEPENDENCIES
 
 script:
-  - ./vendor/bin/phpunit
-
-jobs:
-  include:
-    - stage: Test
-      env: DEPENDENCIES=low
-      install:
-        - travis_retry composer update --prefer-dist --prefer-lowest
-
-    - stage: Test
-      env: COVERAGE
-      before_script:
-        - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{.disabled,}
-        - if [[ ! $(php -m | grep -si xdebug) ]]; then echo "xdebug required for coverage"; exit 1; fi
-      script:
-        - ./vendor/bin/phpunit --coverage-text
+  - if [[ "${TEST_COVERAGE:-false}" == 'true' ]]; then XDEBUG_MODE=coverage php -dzend_extension=xdebug.so ./vendor/bin/phpunit --coverage-text; else ./vendor/bin/phpunit; fi
