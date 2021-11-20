@@ -15,6 +15,7 @@ matrix:
     - php: 7.4
       env:
         - TEST_COVERAGE=true
+    - php: 8.0
 
 before_script:
   - phpenv config-rm xdebug.ini || true
