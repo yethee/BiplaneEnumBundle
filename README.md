@@ -1,4 +1,6 @@
-# BiplaneEnumBundle [![Build Status](https://secure.travis-ci.org/yethee/BiplaneEnumBundle.png?branch=master)](http://travis-ci.org/yethee/BiplaneEnumBundle)
+# BiplaneEnumBundle 
+
+[![Build Status](https://app.travis-ci.com/yethee/BiplaneEnumBundle.svg?branch=master)](https://app.travis-ci.com/yethee/BiplaneEnumBundle)
 
 This bundle provides a typed enumeration for your Symfony2 project.
 
