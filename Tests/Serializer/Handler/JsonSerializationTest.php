@@ -20,7 +20,7 @@ class JsonSerializationTest extends BaseSerializationTest
         return $outputs[$key];
     }
 
-    protected function getFormat()
+    protected function getFormat(): string
     {
         return 'json';
     }

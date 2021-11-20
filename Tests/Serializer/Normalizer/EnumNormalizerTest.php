@@ -5,51 +5,45 @@ namespace Biplane\EnumBundle\Tests\Serializer\Normalizer;
 use Biplane\EnumBundle\Enumeration\EnumInterface;
 use Biplane\EnumBundle\Serializer\Normalizer\EnumNormalizer;
 use Biplane\EnumBundle\Tests\Fixtures\SimpleEnum;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Denis Vasilev <yethee@biplane.ru>
  */
-class EnumNormalizerTest extends \PHPUnit_Framework_TestCase
+class EnumNormalizerTest extends TestCase
 {
-    public function testNormalize()
+    public function testNormalize(): void
     {
-        $rawEnumValue = 5;
-
-        $enum = $this->getMock(EnumInterface::class);
-        $enum->expects($this->once())
-            ->method('getValue')
-            ->will($this->returnValue($rawEnumValue));
-
         $normalizer = new EnumNormalizer();
+        $value = SimpleEnum::create(SimpleEnum::FIRST);
 
-        $this->assertEquals($rawEnumValue, $normalizer->normalize($enum));
+        self::assertSame($value->getValue(), $normalizer->normalize($value));
     }
 
-    public function testDenormalize()
+    public function testDenormalize():  void
     {
         $normalizer = new EnumNormalizer();
 
         $result = $normalizer->denormalize(1, SimpleEnum::class);
 
-        $this->assertInstanceOf(SimpleEnum::class, $result);
-        $this->assertEquals(1, $result->getValue());
+        self::assertInstanceOf(SimpleEnum::class, $result);
+        self::assertSame(1, $result->getValue());
     }
 
-    public function testSupportsNormalization()
-    {
-        $normalizer = new EnumNormalizer();
-        $enum = $this->getMock(EnumInterface::class);
-
-        $this->assertTrue($normalizer->supportsNormalization($enum));
-        $this->assertFalse($normalizer->supportsNormalization(null));
-    }
-
-    public function testSupportsDenormalization()
+    public function testSupportsNormalization(): void
     {
         $normalizer = new EnumNormalizer();
 
-        $this->assertTrue($normalizer->supportsDenormalization(1, SimpleEnum::class));
-        $this->assertFalse($normalizer->supportsDenormalization('1', SimpleEnum::class));
-        $this->assertFalse($normalizer->supportsDenormalization(null, __CLASS__));
+        self::assertTrue($normalizer->supportsNormalization(SimpleEnum::create(SimpleEnum::FIRST)));
+        self::assertFalse($normalizer->supportsNormalization(null));
+    }
+
+    public function testSupportsDenormalization(): void
+    {
+        $normalizer = new EnumNormalizer();
+
+        self::assertTrue($normalizer->supportsDenormalization(1, SimpleEnum::class));
+        self::assertFalse($normalizer->supportsDenormalization('1', SimpleEnum::class));
+        self::assertFalse($normalizer->supportsDenormalization(null, __CLASS__));
     }
 }

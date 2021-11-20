@@ -2,135 +2,133 @@
 
 namespace Biplane\EnumBundle\Tests\Enumeration;
 
+use Biplane\EnumBundle\Exception\InvalidEnumArgumentException;
 use Biplane\EnumBundle\Tests\Fixtures\FlagsEnum;
 use Biplane\EnumBundle\Tests\Fixtures\InvalidFlagsEnum;
+use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
+use UnexpectedValueException;
 
 /**
  * @author Denis Vasilev <yethee@biplane.ru>
  */
-class FlaggedEnumTest extends \PHPUnit_Framework_TestCase
+class FlaggedEnumTest extends TestCase
 {
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testThrowExceptionWhenValueIsNotInteger()
+    public function testThrowExceptionWhenValueIsNotInteger(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+
         FlagsEnum::isAcceptableValue('1');
     }
 
     /**
      * @dataProvider valuesProvider
      */
-    public function testAcceptableValue($value, $result)
+    public function testAcceptableValue($value, $result): void
     {
-        $this->assertSame($result, FlagsEnum::isAcceptableValue($value),
+        self::assertSame($result, FlagsEnum::isAcceptableValue($value),
             sprintf('->isAcceptableValue() returns %s if the value %d.', $result ? 'true' : 'false', $value)
         );
     }
 
-    /**
-     * @expectedException \UnexpectedValueException
-     *
-     * @covers \Biplane\EnumBundle\Enumeration\FlaggedEnum::getBitmask
-     */
-    public function testThrowExceptionWhenBitmaskIsInvalid()
+    public function testThrowExceptionWhenBitmaskIsInvalid(): void
     {
+        $this->expectException(UnexpectedValueException::class);
+
         InvalidFlagsEnum::create(InvalidFlagsEnum::FIRST);
     }
 
-    public function testGetFlagsOfValue()
+    public function testGetFlagsOfValue(): void
     {
         $value = FlagsEnum::create(
             FlagsEnum::NONE | FlagsEnum::FIRST | FlagsEnum::THIRD
         );
 
-        $this->assertEquals(array(FlagsEnum::FIRST, FlagsEnum::THIRD), $value->getFlags());
+        self::assertEquals(array(FlagsEnum::FIRST, FlagsEnum::THIRD), $value->getFlags());
     }
 
-    public function testSingleFlagCanBeReadabled()
+    public function testSingleFlagCanBeReadabled(): void
     {
-        $this->assertEquals('First', FlagsEnum::getReadableFor(FlagsEnum::FIRST));
+        self::assertEquals('First', FlagsEnum::getReadableFor(FlagsEnum::FIRST));
         $instance = FlagsEnum::create(FlagsEnum::FIRST);
-        $this->assertEquals('First', $instance->getReadable());
+        self::assertEquals('First', $instance->getReadable());
     }
 
-    public function testMultipleFlagsCanBeReadabled()
+    public function testMultipleFlagsCanBeReadabled(): void
     {
-        $this->assertEquals('First; Second', FlagsEnum::getReadableFor(FlagsEnum::FIRST | FlagsEnum::SECOND));
+        self::assertEquals('First; Second', FlagsEnum::getReadableFor(FlagsEnum::FIRST | FlagsEnum::SECOND));
         $instance = FlagsEnum::create(FlagsEnum::FIRST | FlagsEnum::SECOND);
-        $this->assertEquals('First; Second', $instance->getReadable());
+        self::assertEquals('First; Second', $instance->getReadable());
     }
 
-    public function testNoneCanBeReadabled()
+    public function testNoneCanBeReadabled(): void
     {
-        $this->assertEquals('None', FlagsEnum::getReadableFor(FlagsEnum::NONE));
+        self::assertEquals('None', FlagsEnum::getReadableFor(FlagsEnum::NONE));
         $instance = FlagsEnum::create(FlagsEnum::NONE);
-        $this->assertEquals('None', $instance->getReadable());
+        self::assertEquals('None', $instance->getReadable());
     }
 
-    public function testReadableSeparatorCanBeChanged()
+    public function testReadableSeparatorCanBeChanged(): void
     {
-        $this->assertEquals('First | Second', FlagsEnum::getReadableFor(FlagsEnum::FIRST | FlagsEnum::SECOND, ' | '));
+        self::assertEquals('First | Second', FlagsEnum::getReadableFor(FlagsEnum::FIRST | FlagsEnum::SECOND, ' | '));
         $instance = FlagsEnum::create(FlagsEnum::FIRST | FlagsEnum::SECOND);
-        $this->assertEquals('First | Second', $instance->getReadable(' | '));
+        self::assertEquals('First | Second', $instance->getReadable(' | '));
     }
 
-    public function testAddFlags()
+    public function testAddFlags(): void
     {
         $original = FlagsEnum::create(FlagsEnum::FIRST | FlagsEnum::THIRD);
 
         $result = $original->addFlags(FlagsEnum::SECOND | FlagsEnum::THIRD);
 
-        $this->assertNotSame($original, $result);
-        $this->assertTrue($result->hasFlag(FlagsEnum::FIRST));
-        $this->assertTrue($result->hasFlag(FlagsEnum::SECOND));
-        $this->assertTrue($result->hasFlag(FlagsEnum::THIRD));
+        self::assertNotSame($original, $result);
+        self::assertTrue($result->hasFlag(FlagsEnum::FIRST));
+        self::assertTrue($result->hasFlag(FlagsEnum::SECOND));
+        self::assertTrue($result->hasFlag(FlagsEnum::THIRD));
     }
 
-    /**
-     * @expectedException \Biplane\EnumBundle\Exception\InvalidEnumArgumentException
-     */
-    public function testThrowExceptionWhenInvalidFlagsAdded()
+    public function testThrowExceptionWhenInvalidFlagsAdded(): void
     {
         $value = FlagsEnum::create(FlagsEnum::FIRST);
+
+        $this->expectException(InvalidEnumArgumentException::class);
 
         $value->addFlags(FlagsEnum::ALL + 1);
     }
 
-    public function testRemoveFlags()
+    public function testRemoveFlags(): void
     {
         $original = FlagsEnum::create(FlagsEnum::FIRST | FlagsEnum::THIRD);
 
         $result = $original->removeFlags(FlagsEnum::FIRST | FlagsEnum::FOURTH);
 
-        $this->assertNotSame($original, $result);
-        $this->assertFalse($result->hasFlag(FlagsEnum::FIRST));
-        $this->assertTrue($result->hasFlag(FlagsEnum::THIRD));
-        $this->assertFalse($result->hasFlag(FlagsEnum::FOURTH));
+        self::assertNotSame($original, $result);
+        self::assertFalse($result->hasFlag(FlagsEnum::FIRST));
+        self::assertTrue($result->hasFlag(FlagsEnum::THIRD));
+        self::assertFalse($result->hasFlag(FlagsEnum::FOURTH));
     }
 
-    public function testRemoveAllFlags()
+    public function testRemoveAllFlags(): void
     {
         $value = FlagsEnum::FIRST | FlagsEnum::THIRD;
         $original = FlagsEnum::create($value);
 
         $result = $original->removeFlags($value);
 
-        $this->assertCount(0, $result->getFlags());
-        $this->assertEquals(FlagsEnum::NONE, $result->getValue());
+        self::assertCount(0, $result->getFlags());
+        self::assertEquals(FlagsEnum::NONE, $result->getValue());
     }
 
-    /**
-     * @expectedException \Biplane\EnumBundle\Exception\InvalidEnumArgumentException
-     */
-    public function testThrowExceptionWhenInvalidFlagsRemoved()
+    public function testThrowExceptionWhenInvalidFlagsRemoved(): void
     {
         $value = FlagsEnum::create(FlagsEnum::FIRST);
+
+        $this->expectException(InvalidEnumArgumentException::class);
 
         $value->removeFlags(99);
     }
 
-    public function valuesProvider()
+    public function valuesProvider(): array
     {
         return array(
             array(0, true),

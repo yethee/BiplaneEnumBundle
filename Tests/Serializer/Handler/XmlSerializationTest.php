@@ -13,7 +13,7 @@ class XmlSerializationTest extends BaseSerializationTest
         return file_get_contents($file);
     }
 
-    protected function getFormat()
+    protected function getFormat(): string
     {
         return 'xml';
     }

@@ -5,12 +5,13 @@ namespace Biplane\EnumBundle\Tests\DependencyInjection;
 use Biplane\EnumBundle\DependencyInjection\BiplaneEnumExtension;
 use Biplane\EnumBundle\Tests\Fixtures\FlagsEnum;
 use Biplane\EnumBundle\Tests\Fixtures\SimpleEnum;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * @author Denis Vasilev <yethee@biplane.ru>
  */
-class BiplaneEnumExtensionTest extends \PHPUnit_Framework_TestCase
+class BiplaneEnumExtensionTest extends TestCase
 {
     /**
      * @var ContainerBuilder
@@ -22,14 +23,14 @@ class BiplaneEnumExtensionTest extends \PHPUnit_Framework_TestCase
      */
     private $extension;
 
-    public function testLoadWithDefaults()
+    public function testLoadWithDefaults(): void
     {
         $this->extension->load(array(), $this->container);
 
-        $this->assertFalse($this->container->hasDefinition('biplane_enum.jms_serializer.enum_handler'));
+        self::assertFalse($this->container->hasDefinition('biplane_enum.jms_serializer.enum_handler'));
     }
 
-    public function testLoadSerializationTypes()
+    public function testLoadSerializationTypes(): void
     {
         $config = array(
             'serializer' => array(
@@ -42,30 +43,30 @@ class BiplaneEnumExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->extension->load(array('biplane_enum' => $config), $this->container);
 
-        $this->assertTrue($this->container->hasDefinition('biplane_enum.jms_serializer.enum_handler'));
+        self::assertTrue($this->container->hasDefinition('biplane_enum.jms_serializer.enum_handler'));
 
         $tagAttributes = $this->container->getDefinition('biplane_enum.jms_serializer.enum_handler')
             ->getTag('jms_serializer.handler');
 
-        $this->assertCount(4, $tagAttributes);
-        $this->assertTagAttributes($tagAttributes[0], SimpleEnum::class, 'json');
-        $this->assertTagAttributes($tagAttributes[1], SimpleEnum::class, 'xml');
-        $this->assertTagAttributes($tagAttributes[2], FlagsEnum::class, 'json');
-        $this->assertTagAttributes($tagAttributes[3], FlagsEnum::class, 'xml');
+        self::assertCount(4, $tagAttributes);
+        self::assertTagAttributes($tagAttributes[0], SimpleEnum::class, 'json');
+        self::assertTagAttributes($tagAttributes[1], SimpleEnum::class, 'xml');
+        self::assertTagAttributes($tagAttributes[2], FlagsEnum::class, 'json');
+        self::assertTagAttributes($tagAttributes[3], FlagsEnum::class, 'xml');
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->container = new ContainerBuilder();
         $this->extension = new BiplaneEnumExtension();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->container, $this->extension);
     }
 
-    private function assertTagAttributes(array $attributes, $type, $format)
+    private static function assertTagAttributes(array $attributes, $type, $format): void
     {
         $expected = array(
             'direction' => 'serialization',
@@ -74,6 +75,6 @@ class BiplaneEnumExtensionTest extends \PHPUnit_Framework_TestCase
             'method'    => 'serializeEnumTo' . ucfirst($format),
         );
 
-        $this->assertEquals($expected, $attributes);
+        self::assertEquals($expected, $attributes);
     }
 }
