@@ -26,7 +26,10 @@
         "jms/serializer-bundle": "<1.1"
     },
     "autoload": {
-        "psr-4": { "Biplane\\EnumBundle\\": "" }
+        "psr-4": { "Biplane\\EnumBundle\\": "" },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
     },
     "extra": {
         "branch-alias": {
