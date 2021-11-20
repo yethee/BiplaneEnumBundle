@@ -16,8 +16,9 @@ use JMS\Serializer\Serializer;
 use PhpCollection\Map;
 use Biplane\EnumBundle\Serializer\Handler\EnumHandler;
 use Biplane\EnumBundle\Tests\Fixtures\SimpleEnum;
+use PHPUnit\Framework\TestCase;
 
-abstract class BaseSerializationTest extends \PHPUnit_Framework_TestCase
+abstract class BaseSerializationTest extends TestCase
 {
     /**
      * @var HandlerRegistry
@@ -29,16 +30,16 @@ abstract class BaseSerializationTest extends \PHPUnit_Framework_TestCase
      */
     protected $handler;
 
-    public function testEnum()
+    public function testEnum(): void
     {
         $enum = SimpleEnum::create(SimpleEnum::SECOND);
 
         $this->registerHandler(get_class($enum));
 
-        $this->assertEquals($this->getContent('enum'), $this->serialize($enum));
+        self::assertEquals($this->getContent('enum'), $this->serialize($enum));
     }
 
-    public function testArrayEnums()
+    public function testArrayEnums(): void
     {
         $this->registerHandler(SimpleEnum::class);
 
@@ -47,15 +48,15 @@ abstract class BaseSerializationTest extends \PHPUnit_Framework_TestCase
             SimpleEnum::create(SimpleEnum::SECOND)
         );
 
-        $this->assertEquals($this->getContent('array_enums'), $this->serialize($data));
+        self::assertEquals($this->getContent('array_enums'), $this->serialize($data));
     }
 
     abstract protected function getContent($key);
-    abstract protected function getFormat();
+    abstract protected function getFormat(): string;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        if (!class_exists('JMS\Serializer\Serializer')) {
+        if (!class_exists(Serializer::class)) {
             $this->markTestSkipped('JMSSerializer library is not available.');
         }
 
@@ -63,12 +64,12 @@ abstract class BaseSerializationTest extends \PHPUnit_Framework_TestCase
         $this->handler = new EnumHandler();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->handlerRegistry, $this->handler);
     }
 
-    protected function registerHandler($type)
+    protected function registerHandler($type): void
     {
         $this->handlerRegistry->registerHandler(
             GraphNavigator::DIRECTION_SERIALIZATION,
@@ -88,7 +89,7 @@ abstract class BaseSerializationTest extends \PHPUnit_Framework_TestCase
         return $this->getSerializer()->deserialize($content, $type, $this->getFormat());
     }
 
-    protected function getSerializer()
+    protected function getSerializer(): Serializer
     {
         $factory = new MetadataFactory(new AnnotationDriver(new AnnotationReader()));
         $namingStrategy = new SerializedNameAnnotationStrategy(new CamelCaseNamingStrategy());

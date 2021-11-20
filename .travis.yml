@@ -13,6 +13,7 @@ matrix:
         - DEPENDENCIES="--prefer-lowest --prefer-stable"
     - php: 7.2
     - php: 7.3
+    - php: 7.4
       env:
         - TEST_COVERAGE=true
 
