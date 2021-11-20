@@ -2,20 +2,12 @@
 
 namespace Biplane\EnumBundle\Tests\Serializer\Handler;
 
-use Doctrine\Common\Annotations\AnnotationReader;
-use Metadata\MetadataFactory;
-use JMS\Serializer\Metadata\Driver\AnnotationDriver;
-use JMS\Serializer\Construction\UnserializeObjectConstructor;
-use JMS\Serializer\Handler\HandlerRegistry;
-use JMS\Serializer\Naming\CamelCaseNamingStrategy;
-use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
-use JMS\Serializer\JsonSerializationVisitor;
-use JMS\Serializer\XmlSerializationVisitor;
-use JMS\Serializer\GraphNavigator;
-use JMS\Serializer\Serializer;
-use PhpCollection\Map;
 use Biplane\EnumBundle\Serializer\Handler\EnumHandler;
 use Biplane\EnumBundle\Tests\Fixtures\SimpleEnum;
+use JMS\Serializer\GraphNavigator;
+use JMS\Serializer\Handler\HandlerRegistry;
+use JMS\Serializer\Serializer;
+use JMS\Serializer\SerializerBuilder;
 use PHPUnit\Framework\TestCase;
 
 abstract class BaseSerializationTest extends TestCase
@@ -91,20 +83,6 @@ abstract class BaseSerializationTest extends TestCase
 
     protected function getSerializer(): Serializer
     {
-        $factory = new MetadataFactory(new AnnotationDriver(new AnnotationReader()));
-        $namingStrategy = new SerializedNameAnnotationStrategy(new CamelCaseNamingStrategy());
-
-        $serializationVisitors = new Map(array(
-            'json' => new JsonSerializationVisitor($namingStrategy),
-            'xml'  => new XmlSerializationVisitor($namingStrategy),
-        ));
-
-        return new Serializer(
-            $factory,
-            $this->handlerRegistry,
-            new UnserializeObjectConstructor(),
-            $serializationVisitors,
-            new Map()
-        );
+        return SerializerBuilder::create($this->handlerRegistry)->build();
     }
 }

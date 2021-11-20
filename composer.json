@@ -8,12 +8,12 @@
         { "name": "Denis Vasilev", "email": "liquid.yethee@hotmail.com" }
     ],
     "require": {
-        "php": ">=7.1",
-        "symfony/framework-bundle": "^4.4",
-        "symfony/form": "^4.4"
+        "php": ">=7.2",
+        "symfony/framework-bundle": "^4.4 || ^5.0",
+        "symfony/form": "^4.4 || ^5.0"
     },
     "require-dev": {
-        "jms/serializer-bundle": "^2.4",
+        "jms/serializer": "^2.0 || ^3.0",
         "symfony/serializer": "^4.4",
         "phpunit/phpunit": "^7.5 || ^8.5"
     },
@@ -22,7 +22,8 @@
         "symfony/serializer": "provides the normalizer for the Symfony's Serializer"
     },
     "conflict": {
-        "jms/serializer": "<1.10"
+        "jms/serializer": "<2.0",
+        "symfony/serializer": ">=5.0"
     },
     "autoload": {
         "psr-4": { "Biplane\\EnumBundle\\": "" },

@@ -24,13 +24,7 @@ class EnumHandler
      */
     public function serializeEnumToJson(JsonSerializationVisitor $visitor, EnumInterface $data, array $type)
     {
-        $value = $data->getValue();
-
-        if ($visitor->getRoot() === null) {
-            $visitor->setRoot($value);
-        }
-
-        return $value;
+        return $data->getValue();
     }
 
     /**
@@ -44,13 +38,16 @@ class EnumHandler
      */
     public function serializeEnumToXml(XmlSerializationVisitor $visitor, EnumInterface $data, array $type)
     {
-        if ($visitor->document === null) {
-            $visitor->document = $visitor->createDocument(null, null, true);
-            $visitor->getCurrentNode()->appendChild($node = $visitor->document->createCDATASection($data->getValue()));
+        $valueNode = $visitor->getDocument()->createCDATASection($data->getValue());
 
-            return $node;
+        $currentNode = $visitor->getCurrentNode();
+
+        if ($currentNode !== null) {
+            $currentNode->appendChild($valueNode);
+        } else {
+            $visitor->setCurrentNode($valueNode);
         }
 
-        return $visitor->document->createCDATASection($data->getValue());
+        return $valueNode;
     }
 }
