@@ -98,7 +98,6 @@ class EnumType extends AbstractType
                 array(
                     'enum_class' => $enumClass,
                     'choices' => $choices,
-                    'choices_as_values' => true,
                     'choice_value' => function ($choice) {
                         return $choice;
                     },

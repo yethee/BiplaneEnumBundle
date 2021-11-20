@@ -4,6 +4,7 @@ namespace Biplane\EnumBundle\Tests\Form\Type;
 
 use Biplane\EnumBundle\Enumeration\FlaggedEnum;
 use Biplane\EnumBundle\Form\EnumExtension;
+use Biplane\EnumBundle\Form\Type\EnumType;
 use Biplane\EnumBundle\Tests\Fixtures\FlagsEnum;
 use Biplane\EnumBundle\Tests\Fixtures\SimpleEnum;
 use Symfony\Component\Form\FormInterface;
@@ -309,13 +310,9 @@ class EnumTypeTest extends FormIntegrationTestCase
         ));
     }
 
-    private function getType()
+    private function getType(): string
     {
-        if (method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix')) {
-            return 'Biplane\EnumBundle\Form\Type\EnumType';
-        }
-
-        return 'biplane_enum';
+        return EnumType::class;
     }
 
     private function assertSubForm(FormInterface $form, $data, $viewData)
